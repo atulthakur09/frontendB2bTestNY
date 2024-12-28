@@ -1,0 +1,208 @@
+/* for table formate details */
+.vehicle-service-details {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+.selection-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.selection-container label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.vehicle-select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px;
+}
+
+/* Main Table Styling */
+.vehicle-details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.vehicle-details-table thead {
+    background-color: #f2f2f2;
+}
+
+.vehicle-details-table th, .vehicle-details-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.vehicle-details-table th {
+    font-weight: bold;
+    color: #555;
+}
+
+.vehicle-details-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.vehicle-details-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Nested Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.items-table th, .items-table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.items-table thead {
+    background-color: #f0f0f0;
+}
+
+.items-table th {
+    font-weight: bold;
+    color: #666;
+}
+
+/* List for items */
+ul.item-list {
+    list-style-type: decimal; /* Numbered list */
+    padding-left: 20px;
+}
+
+.item-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+/* Button styling */
+.toggle-button {
+    padding: 5px 10px;
+    margin-top: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.toggle-button:hover {
+    background-color: #0056b3;
+}
+
+.loading {
+    text-align: center;
+    color: #888;
+}
+
+.error {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .vehicle-details-table, .items-table {
+        width: 100%;
+        font-size: 14px;
+    }
+    
+    .vehicle-select {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .toggle-button {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+}
+
+
+
+
+
+/* for  list formate details */
+/* 
+.vehicle-service-details {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.selection-container {
+    margin-bottom: 20px;
+}
+ 
+.vehicle-select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.vehicle-details-container {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background: #f9f9f9;
+}
+
+.vehicle-detail-card {
+    margin-bottom: 20px;
+}
+
+.item-list {
+    list-style-type: decimal; 
+    padding-left: 20px;
+}
+
+.item-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #fff;
+}
+
+.loading, .error {
+    text-align: center;
+    font-size: 18px;
+}
+
+.error {
+    color: red;
+}
+
+.toggle-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 590px;
+}
+
+.toggle-button:hover {
+    background-color: #0056b3;
+}
+*/
