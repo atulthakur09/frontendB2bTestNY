@@ -66,54 +66,53 @@ export default function MyAppointment() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="App">
-  <h2 className="text-2xl font-bold mb-4">My Appointments</h2>
-  
-  {appointments.length > 0 ? (
-    <div className="overflow-x-auto">
-      <table className="min-w-full border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border border-gray-300 px-4 py-2">Appointment Date</th>
-            <th className="border border-gray-300 px-4 py-2">Time Slot</th>
-            <th className="border border-gray-300 px-4 py-2">Service Type</th>
-            <th className="border border-gray-300 px-4 py-2">Vehicle Number</th>
-            <th className="border border-gray-300 px-4 py-2">pickup & Drop</th>
-            <th className="border border-gray-300 px-4 py-2">Pickup Address</th>
-            <th className="border border-gray-300 px-4 py-2">Drop Address</th>
-            <th className="border border-gray-300 px-4 py-2">Billing Address</th>
-            {/* <th className="border border-gray-300 px-4 py-2">Status</th> */}
-            {/* <th className="border border-gray-300 px-4 py-2">Actions</th> */}
-          </tr>
-        </thead>
-        <tbody>
-          {appointments.map((appointment) => (
-            <tr key={appointment._id} className="hover:bg-gray-50">
-              <td className="border border-gray-300 px-4 py-2">{appointment.date.slice(0, 10).split('-').reverse().join('-')}</td>
-              <td className="border border-gray-300 px-4 py-2">{appointment.timeSlot}</td>
-              <td className="border border-gray-300 px-4 py-2">{appointment.serviceType}</td>
-              <td className="border border-gray-300 px-4 py-2">{appointment.vehicleNumber}</td>
-              <td className="border border-gray-300 px-4 py-2">{appointment.pickupAndDrop}</td> 
-              <td className="border border-gray-300 px-4 py-2">{appointment.pickupAddress}</td>  
-              <td className="border border-gray-300 px-4 py-2">{appointment.dropAddress}</td> 
-              <td className="border border-gray-300 px-4 py-2">{appointment.billingAddress}</td> 
-              {/* <td className="border border-gray-300 px-4 py-2">{appointment.status}</td> */}
-              {/* <td className="border border-gray-300 px-4 py-2">
+    <div className="bg-bg-MASTER min-h-screen py-5">
+      <h2 className="text-2xl font-bold mb-4">My Appointments</h2>
+
+      {appointments.length > 0 ? (
+        <div className="overflow-x-auto">
+          <table className="min-w-full border bg-white border-gray-300">
+            <thead>
+              <tr className="bg-gray-100 justify-center">
+                <th className="border border-gray-300 px-4 py-2">Appointment Date</th>
+                <th className="border border-gray-300 px-4 py-2">Time Slot</th>
+                <th className="border border-gray-300 px-4 py-2">Service Type</th>
+                <th className="border border-gray-300 px-4 py-2">Vehicle Number</th>
+                <th className="border border-gray-300 px-4 py-2">pickup & Drop</th>
+                <th className="border border-gray-300 px-4 py-2">Address</th>
+
+                {/* <th className="border border-gray-300 px-4 py-2">Status</th> */}
+                {/* <th className="border border-gray-300 px-4 py-2">Actions</th> */}
+              </tr>
+            </thead>
+            <tbody>
+              {appointments.map((appointment) => (
+                <tr key={appointment._id} className="hover:bg-gray-50 justify-center">
+                  <td className="border border-gray-300 px-4 py-2"><center>{appointment.date.slice(0, 10).split('-').reverse().join('-')} </center></td>
+                  <td className="border border-gray-300 px-4 py-2"><center> {appointment.timeSlot}</center></td>
+                  <td className="border border-gray-300 px-4 py-2"><center> {appointment.serviceType}</center></td>
+                  <td className="border border-gray-300 px-4 py-2"><center>{appointment.vehicleNumber} </center></td>
+                  <td className="border border-gray-300 px-4 py-2"><center>  {appointment.pickupAndDrop ? "Yes" : "No"}
+                  </center></td>
+                  <td className="border border-gray-300 px-4 py-2"><center> {appointment.pickupAndDropAddress}</center></td>
+
+                  {/* <td className="border border-gray-300 px-4 py-2">{appointment.status}</td> */}
+                  {/* <td className="border border-gray-300 px-4 py-2">
                 <button className="bg-blue-500 text-white px-2 py-1 rounded mr-2" onClick={() => handleEdit(appointment._id)}>Edit</button>
                 <button className="bg-red-500 text-white px-2 py-1 rounded" onClick={() => handleDelete(appointment._id)}>Delete</button>
               </td> */}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p>No appointments found.</p>
+      )}
+
+      <br />
+      <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200" onClick={handleAddNewAppointment}>Add New Appointment</button>
     </div>
-  ) : (
-    <p>No appointments found.</p>
-  )}
-  
-  <br />
-  <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200" onClick={handleAddNewAppointment}>Add New Appointment</button>
-</div>
 
     // <div>
     //   <h2>My Appointments</h2>

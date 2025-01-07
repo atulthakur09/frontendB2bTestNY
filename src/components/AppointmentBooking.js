@@ -4,6 +4,7 @@ import axios from 'axios';
 import validator from 'validator';
 import { useAuth } from "../context/AuthContext";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem } from '@mui/material';
+import AppointmentImages from './extra-comp/AppointmentImages';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const AppointmentBooking = () => {
@@ -17,7 +18,6 @@ const AppointmentBooking = () => {
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedDealer, setSelectedDealer] = useState(null); // State for selected dealer
-  
 
   // State for form data
   const [formData, setFormData] = useState({
@@ -30,10 +30,8 @@ const AppointmentBooking = () => {
     timeSlot: '',
     vehicleNumber: '',
     serviceType: '',
-    pickupAndDrop:'',
-    pickupAddress:'',
-    dropAddress:'',
-    billingAddress: "",
+    pickupAndDrop: '',
+    pickupAndDropAddress: ''
   });
 
   const [errors, setErrors] = useState({});
@@ -41,8 +39,8 @@ const AppointmentBooking = () => {
 
   // Time slots options
   const timeSlots = [
-    "10:00 AM - 11:00 AM", "11:00 AM - 12:00 PM", "12:00 PM - 01:00 PM", 
-    "01:00 PM - 02:00 PM", "02:00 PM - 03:00 PM", "03:00 PM - 04:00 PM", 
+    "10:00 AM - 11:00 AM", "11:00 AM - 12:00 PM", "12:00 PM - 01:00 PM",
+    "01:00 PM - 02:00 PM", "02:00 PM - 03:00 PM", "03:00 PM - 04:00 PM",
     "04:00 PM - 05:00 PM", "05:00 PM - 06:00 PM"
   ];
 
@@ -60,7 +58,7 @@ const AppointmentBooking = () => {
       if (user && user._id) {
         try {
           const response = await axios.get(
-            `${API_BASE_URL}vehicles/${user._id}`,
+            `${API_BASE_URL}/vehicles/${user._id}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -69,7 +67,7 @@ const AppointmentBooking = () => {
           );
           setVehicles(response.data);
         } catch (error) {
-          setError("Regiser your vehicles OR no vehicle found .");
+          setError("Failed to fetch vehicles.");
           console.error("Error fetching vehicles:", error);
         } finally {
           setLoading(false);
@@ -102,16 +100,25 @@ const AppointmentBooking = () => {
   // Handle select dealer button click
   const handleSelectDealer = (dealer) => {
     setSelectedDealer(dealer);
-    setDialogOpen(true); 
+    setDialogOpen(true); // Open dialog when dealer is selected
   };
 
+  // const handlePickupAndDropChange = (e) => {
+  //   const value = e.target.value === 'Yes' || 1 ? true : false; // Convert 'Yes' to true, 'No' to false
+  //   setFormData({
+  //     ...formData,
+  //     pickupAndDrop: value // Store the boolean value
+  //   });
+  // };
   const handlePickupAndDropChange = (e) => {
-  const value = e.target.value === 'Yes' ? true : e.target.value === 'No' ? false : null;
-  setFormData({
-    ...formData,
-    pickupAndDrop: value, 
-  });
-};
+    const value = e.target.value === 'Yes' ? true : e.target.value === 'No' ? false : null;
+    setFormData({
+      ...formData,
+      pickupAndDrop: value, // Store the boolean value or null
+    });
+  };
+
+
 
   useEffect(() => {
     if (selectedState && selectedCity) {
@@ -173,14 +180,14 @@ const AppointmentBooking = () => {
     const validationErrors = validate();
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const response = await axios.post(`${API_BASE_URL}/user/bookYourb2bAppointment`, {
+        const response = await axios.post(`${API_BASE_URL}/user/bookYourAppointment`, {
           ...formData,
           dealerId: selectedDealer._id
         });
         alert("Booking registered successfully!");
         setFormData({
           userId: user._id,
-          dealerId: selectedDealer._id,                             
+          dealerId: selectedDealer._id,
           name: user.username,
           contact: '',
           email: user.email,
@@ -188,10 +195,8 @@ const AppointmentBooking = () => {
           timeSlot: '',
           vehicleNumber: '',
           serviceType: '',
-          pickupAndDrop:'',
-          pickupAddress : formData.pickup ? formData.pickupAddress : undefined,
-          dropAddress : formData.drop ? formData.dropAddress : undefined,
-          billingAddress : formData.billingAddress? formData.billingAddress :undefined,
+          pickupAndDrop: '',
+          pickupAndDropAddress: formData.pickupAndDrop ? formData.pickupAndDropAddress : undefined,
         });
         setSelectedDealer(null);
         setDialogOpen(false); // Close dialog after successful booking
@@ -204,269 +209,550 @@ const AppointmentBooking = () => {
   };
 
   return (
-    <div className="container mx-auto mt-10 p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
-  {/* State dropdown */}
-  <label htmlFor="state" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-    Select State:
-  </label>
-  <select
-    id="state"
-    value={selectedState}
-    onChange={handleStateChange}
-    className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-  >
-    <option value="">--Select State--</option>
-    {states.map((state) => (
-      <option key={state.isoCode} value={state.isoCode}>
-        {state.name}
-      </option>
-    ))}
-  </select>
+    <div className="bg-bg-MASTER min-h-screen py-5">
+      <div className="pp max-w-7xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+        {/* State dropdown */}
+        <label htmlFor="state" className="block text-sm font-medium text-gray-700">
+          Select State:
+        </label>
+        <select
+          id="state"
+          value={selectedState}
+          onChange={handleStateChange}
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+        >
+          <option value="">--Select State--</option>
+          {states.map((state) => (
+            <option key={state.isoCode} value={state.isoCode}>
+              {state.name}
+            </option>
+          ))}
+        </select>
 
-  {/* City dropdown */}
-  {selectedState && (
-    <>
-      <label htmlFor="city" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4">
-        Select City:
-      </label>
-      <select
-        id="city"
-        value={selectedCity}
-        onChange={handleCityChange}
-        className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-      >
-        <option value="">--Select City--</option>
-        {cities.map((city) => (
-          <option key={city.name} value={city.name}>
-            {city.name}
-          </option>
-        ))}
-      </select>
-    </>
-  )}
-
-  <h3 className="mt-4 text-lg font-semibold text-gray-800 dark:text-white">
-    {`Dealer in ${selectedCity} ${getStateName(selectedState)}`}
-  </h3>
-
-  {loading ? (
-    <div className="mt-4 text-gray-600 dark:text-gray-300">Please select a state and city to continue booking.</div>
-  ) : error ? (
-    <div className="mt-4 text-red-600 dark:text-red-400">{error}</div>
-  ) : appointments.length === 0 ? (
-    <div className="mt-4 text-gray-600 dark:text-gray-300">Select state-city to book an appointment.</div>
-  ) : (
-    <div className="appointment-list mt-6 space-y-4">
-      {appointments.map((appointment) => (
-        <div key={appointment._id} className="appointment-card p-4 bg-gray-100 rounded-lg shadow hover:shadow-lg transition-shadow duration-200">
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{appointment.workshopName}</h3>
-          <div className="mt-2">
-            <strong>Shop Images:</strong>
-            <div className="flex space-x-2 mt-2">
-              {appointment.shopImages.map((image, index) => (
-                <img key={index} src={image} alt="Shop" className="w-32 h-32 object-cover rounded" />
+        {/* City dropdown */}
+        {selectedState && (
+          <>
+            <label htmlFor="city" className="block text-sm font-medium text-gray-700 mt-4">
+              Select City:
+            </label>
+            <select
+              id="city"
+              value={selectedCity}
+              onChange={handleCityChange}
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+            >
+              <option value="">--Select City--</option>
+              {cities.map((city) => (
+                <option key={city.name} value={city.name}>
+                  {city.name}
+                </option>
               ))}
-            </div>
+            </select>
+          </>
+        )}
+
+        <h3 className="mt-4 text-lg font-semibold text-gray-800">
+          {`Dealer in ${selectedCity} ${getStateName(selectedState)}`}
+        </h3>
+
+        {loading ? (
+          <div className="mt-4 text-gray-600">Please select a state and city to continue booking.</div>
+        ) : error ? (
+          <div className="mt-4 text-red-600">{error}</div>
+        ) : appointments.length === 0 ? (
+          <div className="mt-4 text-gray-600">Select state-city to book an appointment.</div>
+        ) : (
+          <div className="appointment-list mt-6 space-y-4">
+            {appointments.map((appointment) => (
+              <div key={appointment._id} className="appointment-card p-4 bg-gray-100 rounded-lg shadow hover:shadow-lg transition-shadow duration-200">
+                <h3 className="text-lg font-semibold text-gray-800">{appointment.workshopName}</h3>
+                <div className="mt-2">
+                  {/* <strong>Shop Images:</strong> */}
+                  <AppointmentImages appointment={appointment} />
+                </div>
+                <p className="mt-2">
+                  <strong>Address:</strong> {appointment.address}, {appointment.city}, {appointment.state}, {appointment.pinCode}
+                </p>
+                <div className="mt-2">
+                  <strong>Live Location:</strong>
+                  <p>
+                    Latitude: {appointment.liveLocation.lat}, Longitude: {appointment.liveLocation.lng}
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    handleSelectDealer(appointment);
+                  }}
+                  className="mt-4 w-full py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500"
+                >
+                  Book Appointment
+                </button>
+              </div>
+            ))}
           </div>
-          <p className="mt-2">
-            <strong>Address:</strong> {appointment.address}, {appointment.city}, {appointment.state}, {appointment.pinCode}
-          </p>
-          <div className="mt-2">
-            <strong>Live Location:</strong>
-            <p>
-              Latitude: {appointment.liveLocation.lat}, Longitude: {appointment.liveLocation.lng}
-            </p>
-          </div>
-          <button
-            onClick={() => {
-              handleSelectDealer(appointment);
-            }}
-            className="mt-4 w-full py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500"
-          >
-            Book Appointment
-          </button>
-        </div>
-      ))}
+        )}
+
+        {/* Dialog for booking appointment */}
+        <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+          <DialogTitle className="text-lg font-semibold">Book Appointment</DialogTitle>
+          <DialogContent>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                label="Name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                InputProps={{
+                  readOnly: true,
+                }}
+                error={!!errors.name}
+                helperText={errors.name}
+              />
+              <TextField
+                label="Contact Number"
+                name="contact"
+                value={formData.contact}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                error={!!errors.contact}
+                helperText={errors.contact}
+              />
+              <TextField
+                label="Email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                InputProps={{
+                  readOnly: true,
+                }}
+                error={!!errors.email}
+                helperText={errors.email}
+              />
+              {/* Vehicle Number selection */}
+              <TextField
+                select
+                label="Vehicle Number"
+                name="vehicleNumber"
+                value={formData.vehicleNumber}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                error={!!errors.vehicleNumber}
+                helperText={errors.vehicleNumber}
+              >
+                {vehicles.map((vehicle) => (
+                  <MenuItem key={vehicle._id} value={vehicle.vehicleNumber}>
+                    {vehicle.vehicleNumber} ({vehicle.brand} {vehicle.model})
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                type="date"
+                label="Appointment Date"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                error={!!errors.date}
+                helperText={errors.date}
+                InputLabelProps={{ shrink: true }}
+                inputProps={{
+                  min: new Date().toISOString().split("T")[0], // No past dates
+                  max: new Date(new Date().setDate(new Date().getDate() + 15))
+                    .toISOString()
+                    .split("T")[0], // No more than 15 days in the future
+                }}
+              />
+
+              {/* <TextField
+            label="Date"
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            error={!!errors.date}
+            helperText={errors.date}
+            InputLabelProps={{ shrink: true }}
+          /> */}
+              <TextField
+                select
+                label="Time Slot"
+                name="timeSlot"
+                value={formData.timeSlot}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                error={!!errors.timeSlot}
+                helperText={errors.timeSlot}
+              >
+                {timeSlots.map((slot) => (
+                  <MenuItem key={slot} value={slot}>
+                    {slot}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                select
+                label="Service Type"
+                name="serviceType"
+                value={formData.serviceType}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                error={!!errors.serviceType}
+                helperText={errors.serviceType}
+              >
+                {serviceTypes.map((type) => (
+                  <MenuItem key={type} value={type}>
+                    {type}
+                  </MenuItem>
+                ))}
+              </TextField>
+
+              <TextField
+                label="Pickup and Drop"
+                name="pickupAndDrop"
+                value={
+                  formData.pickupAndDrop === true
+                    ? 'Yes'
+                    : formData.pickupAndDrop === false
+                      ? 'No'
+                      : ''
+                } // Empty if undefined/null
+                onChange={handlePickupAndDropChange} // Handle updates
+                fullWidth
+                margin="normal"
+                select
+                error={!!errors.pickupAndDrop}
+                helperText={errors.pickupAndDrop}
+              >
+                <MenuItem value="">Select an option</MenuItem> {/* Default empty option */}
+                <MenuItem value="Yes">Yes</MenuItem>
+                <MenuItem value="No">No</MenuItem>
+              </TextField>
+
+              {/* pickupAndDropAddress */}
+              <TextField
+                label="Address"
+                name="pickupAndDropAddress"
+                value={formData.pickupAndDropAddress}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                error={!!errors.pickupAndDropAddress}
+                helperText={errors.pickupAndDropAddress}
+              />
+
+              <DialogActions>
+                <Button onClick={() => setDialogOpen(false)}>Cancel</Button>
+                <Button type="submit" color="primary">
+                  Book Appointment
+                </Button>
+              </DialogActions>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
-  )}
 
-  {/* Dialog for booking appointment */}
-  <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-    <DialogTitle className="text-lg font-semibold">Book Appointment</DialogTitle>
-    <DialogContent>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label="Name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          error={!!errors.name}
-          helperText={errors.name}
-        />
-        <TextField
-          label="Contact Number"
-          name="contact"
-          value={formData.contact}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          error={!!errors.contact}
-          helperText={errors.contact}
-        />
-        <TextField
-          label="Email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          error={!!errors.email}
-          helperText={errors.email}
-        />
-        {/* Vehicle Number selection */}
-        <TextField
-          select
-          label="Vehicle Number"
-          name="vehicleNumber"
-          value={formData.vehicleNumber}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          error={!!errors.vehicleNumber}
-          helperText={errors.vehicleNumber}
-        >
-          {vehicles.map((vehicle) => (
-            <MenuItem key={vehicle._id} value={vehicle.vehicleNumber}>
-              {vehicle.vehicleNumber} ({vehicle.brand} {vehicle.model})
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          label="Date"
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          error={!!errors.date}
-          helperText={errors.date}
-          InputLabelProps={{ shrink: true }}
-        />
-        <TextField
-          select
-          label="Time Slot"
-          name="timeSlot"
-          value={formData.timeSlot}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          error={!!errors.timeSlot}
-          helperText={errors.timeSlot}
-        >
-          {timeSlots.map((slot) => (
-            <MenuItem key={slot} value={slot}>
-              {slot}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          select
-          label="Service Type"
-          name="serviceType"
-          value={formData.serviceType}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          error={!!errors.serviceType}
-          helperText={errors.serviceType}
-        >
-          {serviceTypes.map((type) => (
-            <MenuItem key={type} value={type}>
-              {type}
-            </MenuItem>
-          ))}
-        </TextField>
-        {/* Pickup and Drop */}
-      <TextField
-        label="Pickup and Drop"
-        name="pickupAndDrop"
-        value={
-          formData.pickupAndDrop === true
-            ? 'Yes'
-            : formData.pickupAndDrop === false
-            ? 'No'
-            : ''
-        }
-        onChange={handlePickupAndDropChange}
-        fullWidth
-        margin="normal"
-        select
-        error={!!errors.pickupAndDrop}
-        helperText={errors.pickupAndDrop}
-      >
-        <MenuItem value="">Select an option</MenuItem>
-        <MenuItem value="Yes">Yes</MenuItem>
-        <MenuItem value="No">No</MenuItem>
-      </TextField>
+    //   <div class="bg-bg-MASTER min-h-screen py-5">
+    //     <div className="pp max-w-7xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
+    //   {/* State dropdown */}
+    //   <label htmlFor="state" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+    //     Select State:
+    //   </label>
+    //   <select
+    //     id="state"
+    //     value={selectedState}
+    //     onChange={handleStateChange}
+    //     className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+    //   >
+    //     <option value="">--Select State--</option>
+    //     {states.map((state) => (
+    //       <option key={state.isoCode} value={state.isoCode}>
+    //         {state.name}
+    //       </option>
+    //     ))}
+    //   </select>
 
-      {/*  Pickup & Drop or Billing Address fields */}
-      {formData.pickupAndDrop === true && (
-        <>
-          <TextField
-            label="Pickup Address"
-            name="pickupAddress"
-            value={formData.pickupAddress}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            error={!!errors.pickupAddress}
-            helperText={errors.pickupAddress}
-          />
-          <TextField
-            label="Drop Address"
-            name="dropAddress"
-            value={formData.dropAddress}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            error={!!errors.dropAddress}
-            helperText={errors.dropAddress}
-          />
-        </>
-      )}
-      {formData.pickupAndDrop === false && (
-        <>
-          <TextField
-            label="Billing Address"
-            name="billingAddress"
-            value={formData.billingAddress}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            error={!!errors.billingAddress}
-            helperText={errors.billingAddress}
-          />
-        </>
-      )}
-        <DialogActions>
-          <Button onClick={() => setDialogOpen(false)}>Cancel</Button>
-          <Button type="submit" color="primary">
-            Book Appointment
-          </Button>
-        </DialogActions>
-      </form>
-    </DialogContent>
-  </Dialog>
-</div>
+    //   {/* City dropdown */}
+    //   {selectedState && (
+    //     <>
+    //       <label htmlFor="city" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4">
+    //         Select City:
+    //       </label>
+    //       <select
+    //         id="city"
+    //         value={selectedCity}
+    //         onChange={handleCityChange}
+    //         className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+    //       >
+    //         <option value="">--Select City--</option>
+    //         {cities.map((city) => (
+    //           <option key={city.name} value={city.name}>
+    //             {city.name}
+    //           </option>
+    //         ))}
+    //       </select>
+    //     </>
+    //   )}
+
+    //   <h3 className="mt-4 text-lg font-semibold text-gray-800 dark:text-white">
+    //     {`Dealer in ${selectedCity} ${getStateName(selectedState)}`}
+    //   </h3>
+
+    //   {loading ? (
+    //     <div className="mt-4 text-gray-600 dark:text-gray-300">Please select a state and city to continue booking.</div>
+    //   ) : error ? (
+    //     <div className="mt-4 text-red-600 dark:text-red-400">{error}</div>
+    //   ) : appointments.length === 0 ? (
+    //     <div className="mt-4 text-gray-600 dark:text-gray-300">Select state-city to book an appointment.</div>
+    //   ) : (
+    //     <div className="appointment-list mt-6 space-y-4">
+    //       {appointments.map((appointment) => (
+    //         <div key={appointment._id} className="appointment-card p-4 bg-gray-100 rounded-lg shadow hover:shadow-lg transition-shadow duration-200">
+    //           <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{appointment.workshopName}</h3>
+    //           <div className="mt-2">
+    //             {/* <strong>Shop Images:</strong> */}
+    //             <AppointmentImages appointment={appointment} />
+    //             {/* <strong>Shop Images:</strong>
+    //             <div className="flex space-x-2 mt-2">
+    //               {appointment.shopImages.map((image, index) => (
+    //                 <img key={index} src={image} alt="Shop" className="w-32 h-32 object-cover rounded" />
+    //               ))}
+    //             </div> */}
+    //           </div>
+    //           <p className="mt-2">
+    //             <strong>Address:</strong> {appointment.address}, {appointment.city}, {appointment.state}, {appointment.pinCode}
+    //           </p>
+    //           <div className="mt-2">
+    //             <strong>Live Location:</strong>
+    //             <p>
+    //               Latitude: {appointment.liveLocation.lat}, Longitude: {appointment.liveLocation.lng}
+    //             </p>
+    //           </div>
+    //           <button
+    //             onClick={() => {
+    //               handleSelectDealer(appointment);
+    //             }}
+    //             className="mt-4 w-full py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500"
+    //           >
+    //             Book Appointment
+    //           </button>
+    //         </div>
+    //       ))}
+    //     </div>
+    //   )}
+
+    //   {/* Dialog for booking appointment */}
+    //   <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+    //     <DialogTitle className="text-lg font-semibold">Book Appointment</DialogTitle>
+    //     <DialogContent>
+    //       <form onSubmit={handleSubmit}>
+    //         <TextField
+    //           label="Name"
+    //           name="name"
+    //           value={formData.name}
+    //           onChange={handleChange}
+    //           fullWidth
+    //           margin="normal"
+    //           InputProps={{
+    //             readOnly: true,
+    //           }}
+    //           error={!!errors.name}
+    //           helperText={errors.name}
+    //         />
+    //         <TextField
+    //           label="Contact Number"
+    //           name="contact"
+    //           value={formData.contact}
+    //           onChange={handleChange}
+    //           fullWidth
+    //           margin="normal"
+    //           error={!!errors.contact}
+    //           helperText={errors.contact}
+    //         />
+    //         <TextField
+    //           label="Email"
+    //           name="email"
+    //           value={formData.email}
+    //           onChange={handleChange}
+    //           fullWidth
+    //           margin="normal"
+    //           InputProps={{
+    //             readOnly: true,
+    //           }}
+    //           error={!!errors.email}
+    //           helperText={errors.email}
+    //         />
+    //         {/* Vehicle Number selection */}
+    //         <TextField
+    //           select
+    //           label="Vehicle Number"
+    //           name="vehicleNumber"
+    //           value={formData.vehicleNumber}
+    //           onChange={handleChange}
+    //           fullWidth
+    //           margin="normal"
+    //           error={!!errors.vehicleNumber}
+    //           helperText={errors.vehicleNumber}
+    //         >
+    //           {vehicles.map((vehicle) => (
+    //             <MenuItem key={vehicle._id} value={vehicle.vehicleNumber}>
+    //               {vehicle.vehicleNumber} ({vehicle.brand} {vehicle.model})
+    //             </MenuItem>
+    //           ))}
+    //         </TextField>
+    //         <TextField
+    //           label="Date"
+    //           type="date"
+    //           name="date"
+    //           value={formData.date}
+    //           onChange={handleChange}
+    //           fullWidth
+    //           margin="normal"
+    //           error={!!errors.date}
+    //           helperText={errors.date}
+    //           InputLabelProps={{ shrink: true }}
+    //         />
+    //         <TextField
+    //           select
+    //           label="Time Slot"
+    //           name="timeSlot"
+    //           value={formData.timeSlot}
+    //           onChange={handleChange}
+    //           fullWidth
+    //           margin="normal"
+    //           error={!!errors.timeSlot}
+    //           helperText={errors.timeSlot}
+    //         >
+    //           {timeSlots.map((slot) => (
+    //             <MenuItem key={slot} value={slot}>
+    //               {slot}
+    //             </MenuItem>
+    //           ))}
+    //         </TextField>
+    //         <TextField
+    //           select
+    //           label="Service Type"
+    //           name="serviceType"
+    //           value={formData.serviceType}
+    //           onChange={handleChange}
+    //           fullWidth
+    //           margin="normal"
+    //           error={!!errors.serviceType}
+    //           helperText={errors.serviceType}
+    //         >
+    //           {serviceTypes.map((type) => (
+    //             <MenuItem key={type} value={type}>
+    //               {type}
+    //             </MenuItem>
+    //           ))}
+    //         </TextField>
+
+
+    //         <TextField
+    //   label="Pickup and Drop"
+    //   name="pickupAndDrop"
+    //   value={
+    //     formData.pickupAndDrop === true
+    //       ? 'Yes'
+    //       : formData.pickupAndDrop === false
+    //       ? 'No'
+    //       : ''
+    //   } // Empty if undefined/null
+    //   onChange={handlePickupAndDropChange} // Handle updates
+    //   fullWidth
+    //   margin="normal"
+    //   select
+    //   error={!!errors.pickupAndDrop}
+    //   helperText={errors.pickupAndDrop}
+    // >
+    //   <MenuItem value="">Select an option</MenuItem> {/* Default empty option */}
+    //   <MenuItem value="Yes">Yes</MenuItem>
+    //   <MenuItem value="No">No</MenuItem>
+    // </TextField>
+
+    //         {/* <TextField
+    //   label="Pickup and Drop"
+    //   name="pickupAndDrop"
+    //   value={formData.pickupAndDrop ? 'Yes' : 'No'} // Display 'Yes' if true, 'No' if false
+    //   onChange={handlePickupAndDropChange} // Handle updates
+    //   fullWidth
+    //   margin="normal"
+    //   select
+    //   error={!!errors.pickupAndDrop}
+    //   helperText={errors.pickupAndDrop}
+    // >
+    //   <MenuItem value="Yes">Yes</MenuItem>
+    //   <MenuItem value="No">No</MenuItem>
+    // </TextField> */}
+
+
+    //         {/* <TextField
+    //   label="Pickup and Drop"
+    //   name="pickupAndDrop"
+    //   value={formData.pickupAndDrop ? 'Yes' : 'No'} // Display 'Yes' if true, 'No' if false
+    //   onChange={handlePickupAndDropChange} // Use a separate handler for this field
+    //   fullWidth
+    //   margin="normal"
+    //   select
+    //   error={!!errors.pickupAndDrop}
+    //   helperText={errors.pickupAndDrop}
+    // >
+    //   <MenuItem value="Yes">Yes</MenuItem>
+    //   <MenuItem value="No">No</MenuItem>
+    // </TextField> */}
+    // {/* 
+
+    //         {/* <TextField
+    //   label="Pickup and Drop"
+    //   name="pickupAndDrop"
+    //   value={formData.pickupAndDrop}
+    //   onChange={handleChange}
+    //   fullWidth
+    //   margin="normal"
+    //   select
+    //   error={!!errors.pickupAndDrop}
+    //   helperText={errors.pickupAndDrop}
+    // >
+    //   <MenuItem value="Yes">Yes</MenuItem>
+    //   <MenuItem value="No">No</MenuItem>
+    // </TextField> */} 
+
+    //         {/* pickupAndDropAddress */}
+    //         <TextField
+    //           label="Address"
+    //           name="pickupAndDropAddress"
+    //           value={formData.pickupAndDropAddress}
+    //           onChange={handleChange}
+    //           fullWidth
+    //           margin="normal"
+
+    //           error={!!errors.pickupAndDropAddress}
+    //           helperText={errors.pickupAndDropAddress}
+    //         />
+
+    //         <DialogActions>
+    //           <Button onClick={() => setDialogOpen(false)}>Cancel</Button>
+    //           <Button type="submit" color="primary">
+    //             Book Appointment
+    //           </Button>
+    //         </DialogActions>
+    //       </form>
+    //     </DialogContent>
+    //   </Dialog>
+    // </div>
+    //   </div>
+
 
   );
 };

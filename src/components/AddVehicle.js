@@ -447,8 +447,8 @@ export default function AddVehicle() {
 
   return (
  <div className="bg-bg-MASTER min-h-screen py-5">
+  <h1 className="text-3xl font-semibold text-center text-white-900  mb-6">Vehicle Registration Form</h1>
    <div className="App max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md dark:bg-white-800">
-  <h1 className="text-3xl font-semibold text-white-900 dark:text-white mb-6">Vehicle Registration Form</h1>
   
   <form onSubmit={handleSubmit} className="space-y-4 text-left">
     <div>

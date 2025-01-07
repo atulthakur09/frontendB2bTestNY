@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from '@mui/material';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -168,7 +168,7 @@ const BusinessCredentials = () => {
 />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDialogOpen(false)} color="secondary">
+          <Button onClick={() => setDialogOpen(false)} color="primary" variant="contained">
             Cancel
           </Button>
           <Button onClick={handleSubmit} color="primary" variant="contained">

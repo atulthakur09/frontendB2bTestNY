@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import { Link } from 'react-router-dom';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -75,96 +76,131 @@ export default function MyVehicle() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="p-1 ">
-      <h2 className="text-3xl font-bold mb-6">My Vehicle</h2>
+    <div className="bg-bg-MASTER min-h-screen p-4">
+  <div className="p-1">
+    <h2 className="text-3xl font-bold mb-6">My Vehicle</h2>
 
-      {/* Search Box */}
-      <div className="flex items-center mb-2">
-        <input
-          type="text"
-          placeholder="Search by vehicle number"
-          value={searchQuery}
-          onChange={handleSearchChange}
-          className="border border-gray-300 rounded-md p-2 mr-4 w-1/5"
-        />
-        {/* <button
-          onClick={() => {}} // You can remove this button since search is now real-time
-          className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200"
-        >
-          Search
-        </button> */}
-      </div>
-
-      {/* Display total number of vehicles */}
-      <p className="mb-4 text-lg">Total Number of Registered Cars: {filteredVehicles.length}</p>
-
-      {filteredVehicles.length > 0 ? (
-        <table className="min-w-full bg-white border border-gray-300 shadow-md rounded-lg">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="border px-4 py-2 text-left"><center>S.No</center></th>
-              <th className="border px-4 py-2 text-left"><center>Vehicle</center></th>
-              <th className="border px-4 py-2 text-left"><center>Vehicle Number</center></th>
-              <th className="border px-4 py-2 text-left"><center>Vehicle Color</center></th>
-              <th className="border px-4 py-2 text-left"><center>Fuel Type</center></th>
-              <th className="border px-4 py-2 text-left"><center>Odometer Reading</center></th>
-              <th className="border px-4 py-2 text-left"><center>Contact Number</center></th>
-              {/* <th className="border px-4 py-2 text-left"><center>Service Details</center></th> */}
-              {/* <th className="border px-4 py-2 text-left"><center>Actions</center></th> */}
-            </tr>
-          </thead>
-          <tbody>
-            {filteredVehicles.map((vehicle, index) => (
-              <tr key={vehicle._id} className="hover:bg-gray-50">
-                <td className="border px-4 py-2 text-center">{index + 1}</td>
-                <td className="border px-4 py-2"><center>{vehicle.brand} {vehicle.model}</center></td>
-                <td className="border px-4 py-2"><center>{vehicle.vehicleNumber}</center></td>
-                <td className="border px-4 py-2"><center>{vehicle.vehicleColor}</center></td>
-                <td className="border px-4 py-2"><center>{vehicle.fuel}</center></td>
-                <td className="border px-4 py-2"><center>{vehicle.odometer}</center></td>
-                <td className="border px-4 py-2"><center>{vehicle.mobile}</center></td>
-                {/* <td className="border px-4 py-2"><center>
-                  <button
-                    onClick={() => handleOpenDialog(vehicle.vehicleNumber)}
-                    className="bg-blue-600 text-white py-1 px-2 rounded-md hover:bg-blue-700 transition duration-200"
-                  >
-                    View
-                  </button></center>
-                </td> */}
-                {/* <td className="border px-4 py-2"><center>
-                  <button className="text-blue-600 hover:underline mr-2">Edit</button>
-                  <button className="text-red-600 hover:underline">Delete</button>
-                </center>
-                </td> */}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p className="text-red-500 mt-4">No vehicles found.</p>
-      )}
-
-      {/* Dialog to show service details */}
-      <Dialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="md">
-        <DialogTitle>Service Details for {selectedVehicleNumber}</DialogTitle>
-        <DialogContent>
-          {serviceDetails ? (
-            <div className="p-4">
-              <p className="mb-2"><strong>Service Type:</strong> {serviceDetails.serviceType}</p>
-              <p className="mb-2"><strong>Date:</strong> {serviceDetails.date}</p>
-              <p className="mb-2"><strong>Cost:</strong> {serviceDetails.cost}</p>
-            </div>
-          ) : (
-            <p>Loading service details...</p>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+    {/* Search Box */}
+    <div className="flex items-center mb-2">
+      <input
+        type="text"
+        placeholder="Search by vehicle number"
+        value={searchQuery}
+        onChange={handleSearchChange}
+        className="border border-gray-300 rounded-md p-2 mr-4 w-1/5"
+      />
     </div>
+
+    {/* Display total number of vehicles */}
+    <p className="mb-4 text-lg">
+      Total Number of Registered Cars: {filteredVehicles.length}
+    </p>
+
+    <p className="text-sm font-light text-gray-500 dark:text-gray-400 mb-4">
+    <Link
+  to="/add-vehicle"
+  className="inline-block px-4 py-2 text-white font-bold bg-blue-600 rounded hover:bg-blue-500  focus:outline-none focus:ring focus:ring-blue-300"
+>
+  Register new vehicle
+</Link>
+
+</p>
+
+    
+
+    {filteredVehicles.length > 0 ? (
+      <table className="min-w-full bg-white border border-gray-300 shadow-md rounded-lg">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="border px-4 py-2 text-left">
+              <center>S.No</center>
+            </th>
+            <th className="border px-4 py-2 text-left">
+              <center>Vehicle</center>
+            </th>
+            <th className="border px-4 py-2 text-left">
+              <center>Vehicle Number</center>
+            </th>
+            <th className="border px-4 py-2 text-left">
+              <center>Vehicle Color</center>
+            </th>
+            <th className="border px-4 py-2 text-left">
+              <center>Fuel Type</center>
+            </th>
+            <th className="border px-4 py-2 text-left">
+              <center>Odometer Reading</center>
+            </th>
+            <th className="border px-4 py-2 text-left">
+              <center>Contact Number</center>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredVehicles.map((vehicle, index) => (
+            <tr key={vehicle._id} className="hover:bg-gray-50">
+              <td className="border px-4 py-2 text-center">
+                {index + 1}
+              </td>
+              <td className="border px-4 py-2">
+                <center>
+                  {vehicle.brand} {vehicle.model}
+                </center>
+              </td>
+              <td className="border px-4 py-2">
+                <center>{vehicle.vehicleNumber}</center>
+              </td>
+              <td className="border px-4 py-2">
+                <center>{vehicle.vehicleColor}</center>
+              </td>
+              <td className="border px-4 py-2">
+                <center>{vehicle.fuel}</center>
+              </td>
+              <td className="border px-4 py-2">
+                <center>{vehicle.odometer}</center>
+              </td>
+              <td className="border px-4 py-2">
+                <center>{vehicle.mobile}</center>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    ) : (
+      <p className="text-red-500 mt-4">No vehicles found.</p>
+    )}
+
+    {/* Dialog to show service details */}
+    <Dialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="md">
+      <DialogTitle>
+        Service Details for {selectedVehicleNumber}
+      </DialogTitle>
+      <DialogContent>
+        {serviceDetails ? (
+          <div className="p-4">
+            <p className="mb-2">
+              <strong>Service Type:</strong> {serviceDetails.serviceType}
+            </p>
+            <p className="mb-2">
+              <strong>Date:</strong> {serviceDetails.date}
+            </p>
+            <p className="mb-2">
+              <strong>Cost:</strong> {serviceDetails.cost}
+            </p>
+          </div>
+        ) : (
+          <p>Loading service details...</p>
+        )}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseDialog} color="primary">
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
+  </div>
+</div>
+
+  
   );
 }
 

@@ -124,8 +124,8 @@ export default function VehicleServiceDetails() {
     }, [selectedVehicleNumber]); // Fetch vehicle details when the selected vehicle changes
 
     return (
-        <div className="vehicle-service-details">
-            <h2>Vehicle Service Details</h2>
+        <div className="bg-bg-MASTER min-h-screen p-4">
+            <h2 className='text-3xl font-bold mb-6'>Vehicle Service Details</h2>
 
             {/* Search Box */}
             <div className="search-box flex items-center space-x-4 mb-6">
