@@ -10,6 +10,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Unauthorized from './components/Unauthorized';
 import './App.css';
 import defaultLogo from "./images/2.jpg"; 
+import Footer from './components/extra-comp/Footer';
 
 
 
@@ -149,7 +150,11 @@ function App() {
       <Route path="/unauthorized" element={<Unauthorized />} />
     </Routes>
   </div>
+<div>
+  <Footer />
 </div>
+</div>
+
 
 
 );
