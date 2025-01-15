@@ -9,7 +9,7 @@ import { useAuth } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import Unauthorized from './components/Unauthorized';
 import './App.css';
-import defaultLogo from "./images/2.jpg"; 
+import defaultLogo from "./images/2.svg"; 
 import Footer from './components/extra-comp/Footer';
 
 

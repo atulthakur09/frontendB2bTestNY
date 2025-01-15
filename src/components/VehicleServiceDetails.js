@@ -18,7 +18,7 @@ export default function VehicleServiceDetails() {
     const [estimationDetails, setEstimationDetails] = useState([]);
     const [partners, setPartners] = useState([]);
 
-    // Fetch all vehicles
+    // Fetch all vehicles for dropdown
     useEffect(() => {
         async function fetchVehicles() {
             if (user && user._id) {
@@ -126,7 +126,7 @@ export default function VehicleServiceDetails() {
     }, [selectedVehicleNumber]); // Fetch vehicle details when the selected vehicle changes
 
 
-    // Fetch estimation service details
+    // Fetch estimation service details 
     useEffect(() => {
         async function fetchEstimationDetails() {
             if (user && user._id) {
@@ -153,31 +153,39 @@ export default function VehicleServiceDetails() {
         fetchEstimationDetails();
     }, [user]);
 
-    useEffect(() => {
-        async function fetchRegisteredPartner() {
-          if (user && user._id) {
-            try {
-              const response = await axios.get(
-                `${API_BASE_URL}/partner/${user._id}`,
+    const updateEstimation = async (estimationId, updatedData) => {
+        try {
+            const response = await axios.put(
+                `${API_BASE_URL}/user/estService/update/${estimationId}`,
+                updatedData,
                 {
-                  headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                  },
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
                 }
-              );
-              setPartners([response.data]); // Wrap response data in an array
-            } catch (error) {
-              setError("Failed to fetch Partner details.");
-              console.error("Error fetching Partner details:", error);
-            } finally {
-              setLoading(false);
-            }
-          } else {
-            setLoading(false);
-          }
+            );
+            console.log("Update successful:", response.data);
+            // Optionally, refresh the data or update the local state here
+        } catch (error) {
+            console.error("Error updating estimation:", error);
         }
-        fetchRegisteredPartner();
-      }, [user]);
+    };
+
+    const handleApproval = (estimation, isApproved) => {
+        const status = isApproved ? "Approved" : "Rejected";
+        updateEstimation(estimation._id, { status });
+    };
+
+    const handleApproval1 = (estimation, isApproved) => {
+        const additionalDismantalStatus = isApproved ? "Approved" : "Rejected";
+        updateEstimation(estimation._id, { additionalDismantalStatus });
+    };
+
+    const handleUpdate = (estimation, comment) => {
+        updateEstimation(estimation._id, { comment });
+    };
+
+
 
     return (
         <div className="bg-bg-MASTER min-h-screen p-4">
@@ -281,67 +289,141 @@ export default function VehicleServiceDetails() {
                 )
             )}
 
-            {/* Loading spinner */}
-            {loading && <p className="loading">Loading...</p>}
-
-            {/* Display Estimation Details */}
             {estimationDetails.length > 0 && (
                 <div className="estimation-details">
-                    <h3 className="text-xl font-bold mb-4">Pre-Estimation Approval Details</h3>
-                    <table className="vehicle-details-table" style={{ width: '100%' }}>
-                        <thead>
-                            <tr>
-                                <th>Workshop Name</th>
-                                <th>Workshop Contact No.</th>
-                                <th>Workshop Address</th>
-                                <th>Vehicle Number</th>
-                                <th>Model</th>
-                                <th>Odometer</th>
-                                <th>Name</th>
-                                <th>Contact</th>
-                                <th>E-mail</th>
-                                <th>Address</th>
-                                <th>Items</th>
-                                <th>Total Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {estimationDetails.map((estimation, index) => (
-                                <tr key={index}>
-                                    <td>{estimation.workshopName}</td>
-                                    <td>{estimation.mobileNumber}</td>
-                                    <td>{estimation.saddress}</td>
-                                    <td>{estimation.vehicleNumber}</td>
-                                    <td>{estimation.model}</td>
-                                    <td>{estimation.odometer}</td>
-                                    <td>{estimation.username}</td>
-                                    <td>{estimation.mobile}</td>
-                                    <td>{estimation.email}</td>
-                                    <td>{estimation.address}</td>
-                                    <td>{estimation.totalAmount}</td>
-                                    <td>
-                                        <button
-                                            onClick={() => handleToggleItems(index)}
-                                            className="toggle-button"
-                                        >
-                                            {showItemsIndex === index ? 'Hide Items' : 'View Items'}
-                                        </button>
-                                        {showItemsIndex === index && (
-                                            <ul>
-                                                {estimation.items.map((item, idx) => (
-                                                    <li key={idx}>
-                                                        {item.partName} - {item.quantity} x {item.mrp}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        )}
-                                    </td>
+                    <h3 className="text-xl font-bold mb-4">Pre-Estimation Details</h3>
+
+
+                    <div className="table-wrapper overflow-x-auto">
+                        <table className="vehicle-details-table" style={{ width: '100%' }}>
+                            <thead>
+                                <tr>
+                                    <th>Workshop Name</th>
+                                    <th>Workshop Contact No.</th>
+                                    <th>Workshop Email</th>
+                                    <th>Workshop Address</th>
+                                    <th>Vehicle Number</th>
+                                    <th>Model</th>
+                                    <th>Odometer</th>
+                                    <th>Name</th>
+                                    <th>Contact</th>
+                                    <th>E-mail</th>
+                                    <th>Address</th>
+                                    <th>Items</th>
+                                    <th>Total Amount</th>
+                                    <th>Status</th>
+                                    <th>Preliminary Approval / Reject</th>
+                                    <th>Comment/review</th>
+                                    <th>Comment</th>
+
+                                    <th>Additional Dismantle Approval / Reject</th>
+                                    <th>Additional Dismantle Comment/review</th>
+                                    {/* <th>Additional Dismantle Comment</th> */}
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {estimationDetails.map((estimation, index) => (
+                                    <tr key={index}>
+                                        <td className='bg-white'>{estimation.workshopName}</td>
+                                        <td className='bg-white'>{estimation.workshopMobile}</td>
+                                        <td className='bg-white'>{estimation.workshopEmail}</td>
+                                        <td className='bg-white'>{estimation.workshopAddress}</td>
+                                        <td className='bg-white'>{estimation.vehicleNumber}</td>
+                                        <td className='bg-white'>{estimation.model}</td>
+                                        <td className='bg-white'>{estimation.odometer}</td>
+                                        <td className='bg-white'>{estimation.username}</td>
+                                        <td className='bg-white'>{estimation.mobile}</td>
+                                        <td className='bg-white'>{estimation.email}</td>
+                                        <td className='bg-white'>{estimation.address}</td>
+                                        <td className='bg-white'>
+                                            <table className="table-auto border-collapse border border-gray-300 dark:border-gray-600 w-full text-sm">
+                                                <thead>
+                                                    <th className="border border-gray-300 dark:border-gray-600 px-2 py-1">S.No</th>
+                                                    <th className="border border-gray-300 dark:border-gray-600 px-2 py-1">Item No.</th>
+                                                    <th className="border border-gray-300 dark:border-gray-600 px-2 py-1">Part Name</th>
+                                                    <th className="border border-gray-300 dark:border-gray-600 px-2 py-1">Rate</th>
+                                                    <th className="border border-gray-300 dark:border-gray-600 px-2 py-1">Qty</th>
+                                                    <th className="border border-gray-300 dark:border-gray-600 px-2 py-1">Tax</th>
+                                                    <th className="border  dark:border-gray-600 px-2 py-1">MRP</th>
+                                                </thead>
+                                                <tbody>
+                                                    {estimation.items.map((item, index) => (
+                                                        <tr
+                                                            key={index}
+                                                            className="hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
+                                                        >
+                                                            <td className="border border-gray-300 dark:border-gray-600 text-black px-2 py-1">{index + 1}</td>
+                                                            <td className="border border-gray-300 dark:border-gray-600 text-black px-2 py-1">{item.itemNumber}</td>
+                                                            <td className="border border-gray-300 dark:border-gray-600 text-black px-2 py-1">{item.partName}</td>
+                                                            <td className="border border-gray-300 dark:border-gray-600 text-black px-2 py-1">₹{item.rate}</td>
+                                                            <td className="border border-gray-300 dark:border-gray-600 text-black px-2 py-1">{item.quantity}</td>
+                                                            <td className="border border-gray-300 dark:border-gray-600 text-black px-2 py-1">{item.tax}%</td>
+                                                            <td className="border border-gray-300 dark:border-gray-600 text-black px-2 py-1">₹{item.mrp}</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td className='bg-white'>{estimation.totalAmount}</td>
+                                        <td className='bg-white'>{estimation.status}</td>
+                                        
+                                        <td className='bg-white'>
+                                            <button
+                                                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-400 ml-2"
+                                                onClick={() => handleApproval(estimation, true)}
+                                            >
+                                                Approve
+                                            </button>
+                                            <button
+                                                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 ml-2"
+                                                onClick={() => handleApproval(estimation, false)}
+                                            >
+                                                Reject
+                                            </button>
+                                        </td>
+                                        <td className='bg-white'>{estimation.comment}</td>
+
+                                        <td className='bg-white'>
+                                            <input
+                                                type="text"
+                                                placeholder="Enter comment"
+                                                className="border border-gray-300 rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                                onBlur={(e) => handleUpdate(estimation, e.target.value)}
+                                            />
+                                        </td>
+
+                                        <td className='bg-white'>{estimation.additionalDismantalStatus}</td>
+                                        <td className='bg-white'>
+                                            <button
+                                                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-400 ml-2"
+                                                onClick={() => handleApproval1(estimation, true)}
+                                            >
+                                                Approve
+                                            </button>
+                                            <button
+                                                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 ml-2"
+                                                onClick={() => handleApproval1(estimation, false)}
+                                            >
+                                                Reject
+                                            </button>
+                                        </td>
+                                        {/* <td className='bg-white'>
+                                            <input
+                                                type="text"
+                                                placeholder="Enter comment"
+                                                className="border border-gray-300 rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                                onBlur={(e) => handleUpdate(estimation, e.target.value)}
+                                            />
+                                        </td> */}
+
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             )}
+
         </div>
 
 
