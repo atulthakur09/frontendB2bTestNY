@@ -180,7 +180,8 @@ const AppointmentBooking = () => {
     const validationErrors = validate();
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const response = await axios.post(`${API_BASE_URL}/user/bookYourAppointment`, {
+        // const response = await axios.post(`${API_BASE_URL}/user/bookYourAppointment`, {
+        const response = await axios.post(`${API_BASE_URL}/estService/register`, {
           ...formData,
           dealerId: selectedDealer._id
         });
