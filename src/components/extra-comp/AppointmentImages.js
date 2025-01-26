@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
-import rightArrow from '../../images/svg/arrow-left-blue.svg';
-import leftArrow from '../../images/svg/arrow-right-blue.svg';
+import rightArrow from "../../images/svg/arrow-left-blue.svg";
+import leftArrow from "../../images/svg/arrow-right-blue.svg";
 
 function ImageSlider({ images }) {
   const sliderRef = useRef(null);
@@ -34,12 +34,12 @@ function ImageSlider({ images }) {
           <button
             onClick={handleScrollLeft}
             className="absolute left-0 bg-gray-300 hover:bg-gray-400 text-black p-2 rounded-full z-10"
-            style={{ left: '10px' }}
+            style={{ left: "10px" }}
           >
             <img
               src={rightArrow}
               alt="Left Arrow"
-              style={{ width: '25px', height: '25px' }}
+              style={{ width: "25px", height: "25px" }}
             />
           </button>
         )}
@@ -65,12 +65,12 @@ function ImageSlider({ images }) {
           <button
             onClick={handleScrollRight}
             className="absolute right-0 bg-gray-300 hover:bg-gray-400 text-black p-2 rounded-full z-10"
-            style={{ right: '10px' }}
+            style={{ right: "10px" }}
           >
             <img
               src={leftArrow}
               alt="Right Arrow"
-              style={{ width: '25px', height: '25px' }}
+              style={{ width: "25px", height: "25px" }}
             />
           </button>
         )}
@@ -152,7 +152,6 @@ export default function AppointmentImages({ appointment }) {
 //                     />
 //                 </button>
 
-
 //                 {/* Image Container */}
 //                 <div
 //                     ref={sliderRef}
@@ -191,7 +190,6 @@ export default function AppointmentImages({ appointment }) {
 //             </div>
 
 //             <div>
-
 
 //                 {/* Modal for Large Image View */}
 //                 {isModalOpen && (

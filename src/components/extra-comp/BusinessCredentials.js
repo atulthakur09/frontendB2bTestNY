@@ -1,20 +1,27 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
-import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from '@mui/material';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+} from "@mui/material";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const BusinessCredentials = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  
+
   const { user } = useAuth();
 
   const [businessDetails, setBusinessDetails] = useState({
-    email: user ? user.email : '',
-    contact: '',
-    businessName: '',
-    billingAddress: '',
-    gstin: '',
+    email: user ? user.email : "",
+    contact: "",
+    businessName: "",
+    billingAddress: "",
+    gstin: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -36,11 +43,17 @@ const BusinessCredentials = () => {
     } else if (!/^[0-9]{10}$/.test(businessDetails.contact)) {
       errors.contact = "Contact number must be a valid 10-digit number";
     }
-    if (!businessDetails.businessName.trim()) errors.businessName = "Business name is required";
-    if (!businessDetails.billingAddress.trim()) errors.billingAddress = "Billing address is required";
+    if (!businessDetails.businessName.trim())
+      errors.businessName = "Business name is required";
+    if (!businessDetails.billingAddress.trim())
+      errors.billingAddress = "Billing address is required";
     if (!businessDetails.gstin.trim()) {
       errors.gstin = "GSTIN is required";
-    } else if (!/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}[Z]{1}[A-Z0-9]{1}$/.test(businessDetails.gstin)) {
+    } else if (
+      !/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}[Z]{1}[A-Z0-9]{1}$/.test(
+        businessDetails.gstin
+      )
+    ) {
       errors.gstin = "Invalid GSTIN format";
     }
     return errors;
@@ -52,21 +65,25 @@ const BusinessCredentials = () => {
     if (Object.keys(validationErrors).length === 0) {
       try {
         // API call to submit business details
-        const response = await axios.post(`${API_BASE_URL}/b2b/fleetInfo`, businessDetails, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        const response = await axios.post(
+          `${API_BASE_URL}/b2b/fleetInfo`,
+          businessDetails,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (response.status === 201) {
           alert("Business details submitted successfully!");
           setDialogOpen(false);
           setBusinessDetails({
-            email: '',
-            contact: '',
-            businessName: '',
-            billingAddress: '',
-            gstin: '',
+            email: "",
+            contact: "",
+            businessName: "",
+            billingAddress: "",
+            gstin: "",
           });
         }
       } catch (error) {
@@ -81,12 +98,21 @@ const BusinessCredentials = () => {
   return (
     <div>
       {/* Button to open the dialog */}
-      <Button variant="contained" color="primary" onClick={() => setDialogOpen(true)}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => setDialogOpen(true)}
+      >
         Add Business Details
       </Button>
 
       {/* Dialog */}
-      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        maxWidth="sm"
+        fullWidth
+      >
         <DialogTitle>Enter Business Details</DialogTitle>
         <DialogContent>
           {/* Email */}
@@ -150,25 +176,29 @@ const BusinessCredentials = () => {
 
           {/* GSTIN */}
           <TextField
-  fullWidth
-  label="GSTIN"
-  name="gstin"
-  value={businessDetails.gstin}
-  onChange={(e) =>
-    handleChange({
-      target: {
-        name: e.target.name,
-        value: e.target.value.toUpperCase(), // Convert input to uppercase
-      },
-    })
-  }
-  margin="normal"
-  error={!!errors.gstin}
-  helperText={errors.gstin}
-/>
+            fullWidth
+            label="GSTIN"
+            name="gstin"
+            value={businessDetails.gstin}
+            onChange={(e) =>
+              handleChange({
+                target: {
+                  name: e.target.name,
+                  value: e.target.value.toUpperCase(), // Convert input to uppercase
+                },
+              })
+            }
+            margin="normal"
+            error={!!errors.gstin}
+            helperText={errors.gstin}
+          />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDialogOpen(false)} color="primary" variant="contained">
+          <Button
+            onClick={() => setDialogOpen(false)}
+            color="primary"
+            variant="contained"
+          >
             Cancel
           </Button>
           <Button onClick={handleSubmit} color="primary" variant="contained">

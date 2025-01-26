@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { State, City } from 'country-state-city';
-import axios from 'axios';
-import validator from 'validator';
+import React, { useEffect, useState } from "react";
+import { State, City } from "country-state-city";
+import axios from "axios";
+import validator from "validator";
 import { useAuth } from "../context/AuthContext";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem } from '@mui/material';
-import AppointmentImages from './extra-comp/AppointmentImages';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  MenuItem,
+} from "@mui/material";
+import AppointmentImages from "./extra-comp/AppointmentImages";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const AppointmentBooking = () => {
@@ -15,23 +23,44 @@ const AppointmentBooking = () => {
   const [error, setError] = useState(null);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-  const [selectedState, setSelectedState] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
-  const [selectedDealer, setSelectedDealer] = useState(null); // State for selected dealer
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedPartner, setSelectedPartner] = useState(null); // State for selected dealer
+
+  const generateQuotationNo = () => {
+    const prefix = "B2B";
+    // const timestamp = Date.now().toString(36);
+    const randomChars = Math.random()
+      .toString(36)
+      .substring(2, 8)
+      .toUpperCase();
+    return `${prefix}-${randomChars}`;
+  };
+  const generateBookingId = () => {
+    const prefix1 = "BOOKING-ID";
+    const timestamp = Date.now().toString(36);
+    const randomChars1 = Math.random()
+      .toString(36)
+      .substring(2, 8)
+      .toUpperCase();
+    return `${prefix1}-${timestamp}-${randomChars1}`;
+  };
 
   // State for form data
   const [formData, setFormData] = useState({
-    userId: user ? user._id : '',
-    dealerId: selectedDealer ? selectedDealer._id : '',
-    name: user ? user.username : '',
-    contact: '',
-    email: user ? user.email : '',
-    date: '',
-    timeSlot: '',
-    vehicleNumber: '',
-    serviceType: '',
-    pickupAndDrop: '',
-    pickupAndDropAddress: ''
+    userId: user ? user._id : "",
+    partnerId: selectedPartner ? selectedPartner._id : "",
+    name: user ? user.username : "",
+    contact: "",
+    email: user ? user.email : "",
+    date: "",
+    timeSlot: "",
+    vehicleNumber: "",
+    serviceType: "",
+    pickupAndDrop: "",
+    pickupAndDropAddress: "",
+    quotationNo: generateQuotationNo(),
+    bookingId: generateBookingId(),
   });
 
   const [errors, setErrors] = useState({});
@@ -39,17 +68,31 @@ const AppointmentBooking = () => {
 
   // Time slots options
   const timeSlots = [
-    "10:00 AM - 11:00 AM", "11:00 AM - 12:00 PM", "12:00 PM - 01:00 PM",
-    "01:00 PM - 02:00 PM", "02:00 PM - 03:00 PM", "03:00 PM - 04:00 PM",
-    "04:00 PM - 05:00 PM", "05:00 PM - 06:00 PM"
+    "10:00 AM - 11:00 AM",
+    "11:00 AM - 12:00 PM",
+    "12:00 PM - 01:00 PM",
+    "01:00 PM - 02:00 PM",
+    "02:00 PM - 03:00 PM",
+    "03:00 PM - 04:00 PM",
+    "04:00 PM - 05:00 PM",
+    "05:00 PM - 06:00 PM",
   ];
 
   // Service types options
   const serviceTypes = [
-    "AC Service & Repair", "Batteries", "Car Spa & Cleaning", "Clutch & Body Parts",
-    "Denting & Paint", "Detailing Service", "General Service", "Major Service",
-    "Oil Change", "Periodic Service", "Suspension & Fitment", "Tyre & Wheel",
-    "Windshield & Lights"
+    "AC Service & Repair",
+    "Batteries",
+    "Car Spa & Cleaning",
+    "Clutch & Body Parts",
+    "Denting & Paint",
+    "Detailing Service",
+    "General Service",
+    "Major Service",
+    "Oil Change",
+    "Periodic Service",
+    "Suspension & Fitment",
+    "Tyre & Wheel",
+    "Windshield & Lights",
   ];
 
   // Fetch vehicles when the component mounts
@@ -79,7 +122,7 @@ const AppointmentBooking = () => {
 
   // Fetch states when the component mounts
   useEffect(() => {
-    const fetchedStates = State.getStatesOfCountry('IN');
+    const fetchedStates = State.getStatesOfCountry("IN");
     setStates(fetchedStates);
   }, []);
 
@@ -87,8 +130,8 @@ const AppointmentBooking = () => {
   const handleStateChange = (event) => {
     const stateCode = event.target.value;
     setSelectedState(stateCode);
-    setSelectedCity('');
-    const fetchedCities = City.getCitiesOfState('IN', stateCode);
+    setSelectedCity("");
+    const fetchedCities = City.getCitiesOfState("IN", stateCode);
     setCities(fetchedCities);
   };
 
@@ -98,8 +141,8 @@ const AppointmentBooking = () => {
   };
 
   // Handle select dealer button click
-  const handleSelectDealer = (dealer) => {
-    setSelectedDealer(dealer);
+  const handleSelectDealer = (partner) => {
+    setSelectedPartner(partner);
     setDialogOpen(true); // Open dialog when dealer is selected
   };
 
@@ -111,27 +154,28 @@ const AppointmentBooking = () => {
   //   });
   // };
   const handlePickupAndDropChange = (e) => {
-    const value = e.target.value === 'Yes' ? true : e.target.value === 'No' ? false : null;
+    const value =
+      e.target.value === "Yes" ? true : e.target.value === "No" ? false : null;
     setFormData({
       ...formData,
       pickupAndDrop: value, // Store the boolean value or null
     });
   };
 
-
-
   useEffect(() => {
     if (selectedState && selectedCity) {
       const stateName = getStateName(selectedState);
       setLoading(true);
       axios
-        .get(`${API_BASE_URL}/allPartnerList?state=${stateName}&city=${selectedCity}`)
+        .get(
+          `${API_BASE_URL}/allPartnerList?state=${stateName}&city=${selectedCity}`
+        )
         .then((response) => {
           setAppointments(response.data);
           setError(null);
         })
         .catch((err) => {
-          setError('No dealer found in your location.');
+          setError("No dealer found in your location.");
           setAppointments([]);
         })
         .finally(() => {
@@ -141,15 +185,15 @@ const AppointmentBooking = () => {
   }, [selectedState, selectedCity]);
 
   const getStateName = (stateCode) => {
-    const state = states.find(s => s.isoCode === stateCode);
-    return state ? state.name : '';
+    const state = states.find((s) => s.isoCode === stateCode);
+    return state ? state.name : "";
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -181,28 +225,36 @@ const AppointmentBooking = () => {
     if (Object.keys(validationErrors).length === 0) {
       try {
         // const response = await axios.post(`${API_BASE_URL}/user/bookYourAppointment`, {
-        const response = await axios.post(`${API_BASE_URL}/estService/register`, {
-          ...formData,
-          dealerId: selectedDealer._id
-        });
+        const response = await axios.post(
+          `${API_BASE_URL}/estService/register`,
+          {
+            ...formData,
+            partnerId: selectedPartner._id,
+          }
+        );
         alert("Booking registered successfully!");
         setFormData({
           userId: user._id,
-          dealerId: selectedDealer._id,
+          partnerId: selectedPartner._id,
           name: user.username,
-          contact: '',
+          contact: "",
           email: user.email,
-          date: '',
-          timeSlot: '',
-          vehicleNumber: '',
-          serviceType: '',
-          pickupAndDrop: '',
-          pickupAndDropAddress: formData.pickupAndDrop ? formData.pickupAndDropAddress : undefined,
+          date: "",
+          timeSlot: "",
+          vehicleNumber: "",
+          serviceType: "",
+          pickupAndDrop: "",
+          pickupAndDropAddress: formData.pickupAndDrop
+            ? formData.pickupAndDropAddress
+            : undefined,
         });
-        setSelectedDealer(null);
+        setSelectedPartner(null);
         setDialogOpen(false); // Close dialog after successful booking
       } catch (error) {
-        console.error("Error booking appointment:", error.response?.data || error.message);
+        console.error(
+          "Error booking appointment:",
+          error.response?.data || error.message
+        );
       }
     } else {
       setErrors(validationErrors);
@@ -213,7 +265,10 @@ const AppointmentBooking = () => {
     <div className="bg-bg-MASTER min-h-screen py-5">
       <div className="pp max-w-7xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
         {/* State dropdown */}
-        <label htmlFor="state" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="state"
+          className="block text-sm font-medium text-gray-700"
+        >
           Select State:
         </label>
         <select
@@ -233,7 +288,10 @@ const AppointmentBooking = () => {
         {/* City dropdown */}
         {selectedState && (
           <>
-            <label htmlFor="city" className="block text-sm font-medium text-gray-700 mt-4">
+            <label
+              htmlFor="city"
+              className="block text-sm font-medium text-gray-700 mt-4"
+            >
               Select City:
             </label>
             <select
@@ -257,27 +315,38 @@ const AppointmentBooking = () => {
         </h3>
 
         {loading ? (
-          <div className="mt-4 text-gray-600">Please select a state and city to continue booking.</div>
+          <div className="mt-4 text-gray-600">
+            Please select a state and city to continue booking.
+          </div>
         ) : error ? (
           <div className="mt-4 text-red-600">{error}</div>
         ) : appointments.length === 0 ? (
-          <div className="mt-4 text-gray-600">Select state-city to book an appointment.</div>
+          <div className="mt-4 text-gray-600">
+            Select state-city to book an appointment.
+          </div>
         ) : (
           <div className="appointment-list mt-6 space-y-4">
             {appointments.map((appointment) => (
-              <div key={appointment._id} className="appointment-card p-4 bg-gray-100 rounded-lg shadow hover:shadow-lg transition-shadow duration-200">
-                <h3 className="text-lg font-semibold text-gray-800">{appointment.workshopName}</h3>
+              <div
+                key={appointment._id}
+                className="appointment-card p-4 bg-gray-100 rounded-lg shadow hover:shadow-lg transition-shadow duration-200"
+              >
+                <h3 className="text-lg font-semibold text-gray-800">
+                  {appointment.workshopName}
+                </h3>
                 <div className="mt-2">
                   {/* <strong>Shop Images:</strong> */}
                   <AppointmentImages appointment={appointment} />
                 </div>
                 <p className="mt-2">
-                  <strong>Address:</strong> {appointment.address}, {appointment.city}, {appointment.state}, {appointment.pinCode}
+                  <strong>Address:</strong> {appointment.address},{" "}
+                  {appointment.city}, {appointment.state}, {appointment.pinCode}
                 </p>
                 <div className="mt-2">
                   <strong>Live Location:</strong>
                   <p>
-                    Latitude: {appointment.liveLocation.lat}, Longitude: {appointment.liveLocation.lng}
+                    Latitude: {appointment.liveLocation.lat}, Longitude:{" "}
+                    {appointment.liveLocation.lng}
                   </p>
                 </div>
                 <button
@@ -295,7 +364,9 @@ const AppointmentBooking = () => {
 
         {/* Dialog for booking appointment */}
         <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-          <DialogTitle className="text-lg font-semibold">Book Appointment</DialogTitle>
+          <DialogTitle className="text-lg font-semibold">
+            Book Appointment
+          </DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmit}>
               <TextField
@@ -423,10 +494,10 @@ const AppointmentBooking = () => {
                 name="pickupAndDrop"
                 value={
                   formData.pickupAndDrop === true
-                    ? 'Yes'
+                    ? "Yes"
                     : formData.pickupAndDrop === false
-                      ? 'No'
-                      : ''
+                    ? "No"
+                    : ""
                 } // Empty if undefined/null
                 onChange={handlePickupAndDropChange} // Handle updates
                 fullWidth
@@ -435,7 +506,8 @@ const AppointmentBooking = () => {
                 error={!!errors.pickupAndDrop}
                 helperText={errors.pickupAndDrop}
               >
-                <MenuItem value="">Select an option</MenuItem> {/* Default empty option */}
+                <MenuItem value="">Select an option</MenuItem>{" "}
+                {/* Default empty option */}
                 <MenuItem value="Yes">Yes</MenuItem>
                 <MenuItem value="No">No</MenuItem>
               </TextField>
@@ -659,7 +731,6 @@ const AppointmentBooking = () => {
     //           ))}
     //         </TextField>
 
-
     //         <TextField
     //   label="Pickup and Drop"
     //   name="pickupAndDrop"
@@ -697,7 +768,6 @@ const AppointmentBooking = () => {
     //   <MenuItem value="No">No</MenuItem>
     // </TextField> */}
 
-
     //         {/* <TextField
     //   label="Pickup and Drop"
     //   name="pickupAndDrop"
@@ -712,7 +782,7 @@ const AppointmentBooking = () => {
     //   <MenuItem value="Yes">Yes</MenuItem>
     //   <MenuItem value="No">No</MenuItem>
     // </TextField> */}
-    // {/* 
+    // {/*
 
     //         {/* <TextField
     //   label="Pickup and Drop"
@@ -727,7 +797,7 @@ const AppointmentBooking = () => {
     // >
     //   <MenuItem value="Yes">Yes</MenuItem>
     //   <MenuItem value="No">No</MenuItem>
-    // </TextField> */} 
+    // </TextField> */}
 
     //         {/* pickupAndDropAddress */}
     //         <TextField
@@ -753,8 +823,6 @@ const AppointmentBooking = () => {
     //   </Dialog>
     // </div>
     //   </div>
-
-
   );
 };
 

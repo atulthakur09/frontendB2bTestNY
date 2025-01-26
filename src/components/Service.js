@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import validator from "validator";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-
 export default function Service() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -37,7 +36,7 @@ export default function Service() {
     if (!address.trim()) errors.address = "Address is required";
 
     if (!validator.isEmail(email)) errors.email = "Invalid email format";
-    
+
     if (!odometer) errors.odometer = "Odometer reading is required";
     else if (parseInt(odometer, 10) <= lastOdometer)
       errors.odometer = `Odometer reading must be greater than the previous value of ${lastOdometer}`;
@@ -301,7 +300,7 @@ export default function Service() {
 //     if (!address.trim()) errors.address = "Address is required";
 
 //     if (!validator.isEmail(email)) errors.email = "Invalid email format";
-    
+
 //     if (!odometer) errors.odometer = "Odometer reading is required";
 //     else if (parseInt(odometer, 10) <= lastOdometer)
 //       errors.odometer = `Odometer reading must be greater than the previous value of ${lastOdometer}`;
@@ -438,8 +437,6 @@ export default function Service() {
 //         {clientErrors.email && <span>{clientErrors.email}</span>}
 //         <br />
 
-
-
 //         {/* <label htmlFor="_id">ID</label>
 //         <input
 //           type="text"
@@ -450,9 +447,6 @@ export default function Service() {
 //         />
 //         {clientErrors._id && <span>{clientErrors._id}</span>} */}
 
-
-
-        
 //         <br />
 //         <label htmlFor="username">Username</label>
 //         <input

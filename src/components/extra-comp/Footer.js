@@ -1,9 +1,16 @@
-import React from 'react';
-import './Footer.css';
+import React from "react";
+import "./Footer.css";
 // footer icon
 import FACEBOOK from "../../images/facebook.svg";
 import INSTAGRAM from "../../images/instagram.svg";
 import TWITTER from "../../images/twitter.svg";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {  faFacebook,
+  faInstagram,
+  faTwitter,
+  faYoutube,
+  faLinkedin   } from '@fortawesome/free-brands-svg-icons';  // Example icons
+
 
 const Footer = () => {
   return (
@@ -12,7 +19,10 @@ const Footer = () => {
         {/* Contact Us Section */}
         <div className="footer-section">
           <h4>Contact Us</h4>
-          <p>📍 #191, Subbarama Chetty Road, Nettakallappa Circle, Basavanagudi, Bangalore South, Bangalore- 560004, Karnataka..</p>
+          <p>
+            📍 #191, Subbarama Chetty Road, Nettakallappa Circle, Basavanagudi,
+            Bangalore South, Bangalore- 560004, Karnataka..
+          </p>
           <p>📞 +91-1111111111 10am-6pm, Mon-Sat</p>
           <p>📧 dr.MechNY@gmail.com</p>
         </div>
@@ -49,12 +59,59 @@ const Footer = () => {
 
       {/* Copyright Section */}
       <div className="footer-bottom">
-        <p>
-          
-        </p>
+        <p></p>
         <div className="footer-icons">
-          <span><img src={FACEBOOK} alt="Dr. MechNY Logo" style={{ width: '40px', height: '40px' }} /></span> {/* Replace with icons */}<span><img src={INSTAGRAM} alt="Dr. MechNY Logo" style={{ width: '40px', height: '40px' }} /></span><span><img src={TWITTER} alt="Dr. MechNY Logo" style={{ width: '40px', height: '40px' }} /></span>
-        </div>
+      <span>
+        <a
+          href="https://www.instagram.com/drmechny/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src={INSTAGRAM}
+            alt="Instagram"
+            style={{ width: '40px', height: '40px' }}
+          />
+        </a>
+      </span>
+      <span>
+        <a
+          href="https://x.com/DrMechny"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src={TWITTER}
+            alt="Twitter"
+            style={{ width: '40px', height: '40px' }}
+          />
+        </a>
+      </span>
+      <span>
+        <a
+          href="https://www.youtube.com/channel/UCyRLCLvr77qhDP93xhU0HvA"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FontAwesomeIcon
+            icon={faYoutube}
+            style={{ color: '#e11414', fontSize: '40px' }}
+          />
+        </a>
+      </span>
+      <span>
+        <a
+          href="https://www.linkedin.com/company/drmechny/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FontAwesomeIcon
+            icon={faLinkedin}
+            style={{ color: '#0077b5', fontSize: '40px' }}
+          />
+        </a>
+      </span>
+    </div>
       </div>
     </footer>
   );

@@ -82,6 +82,7 @@ p {
 }
 
 @media (max-width: 480px) {
+
   input[type="text"],
   input[type="number"],
   input[type="date"],

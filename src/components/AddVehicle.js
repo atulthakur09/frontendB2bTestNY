@@ -19,7 +19,7 @@ export default function AddVehicle() {
 
   const [chassisNumber, setChassisNumber] = useState("");
   const [engineNumber, setEngineNumber] = useState("");
-  const [dateOfRCReg, setdateOfRCReg] = useState('');
+  const [dateOfRCReg, setdateOfRCReg] = useState("");
   const [clientErrors, setClientErrors] = useState({});
 
   const [mobile, setContact] = useState("");
@@ -40,8 +40,27 @@ export default function AddVehicle() {
   }, [user]);
 
   const vehicleModels = {
-    Audi: ["A3", "A4", "A6", "A8","A8 L","e-Tron","e-Tron GT", "Q2", "Q3","Q3 Sportback", "Q5", "Q7", "Q8","Q8 Sportback e-Tron","Q8 e-Tron","RS Q8","RS5","S5 Sportback"],
-    // "Aston Martin":["DB12","DBX","Vantage"], 
+    Audi: [
+      "A3",
+      "A4",
+      "A6",
+      "A8",
+      "A8 L",
+      "e-Tron",
+      "e-Tron GT",
+      "Q2",
+      "Q3",
+      "Q3 Sportback",
+      "Q5",
+      "Q7",
+      "Q8",
+      "Q8 Sportback e-Tron",
+      "Q8 e-Tron",
+      "RS Q8",
+      "RS5",
+      "S5 Sportback",
+    ],
+    // "Aston Martin":["DB12","DBX","Vantage"],
     BMW: [
       "2 Series Gran Coupe",
       "3 Series",
@@ -68,12 +87,21 @@ export default function AddVehicle() {
       "Z4",
     ],
     // Bentley:["Bentayga","Continental","Fly Spur"],
-    Byd:["Seal","Atto 3","E6"],
-    Citroen: ["Basalt","C3","C3 Aircross","eC3", "C5 Aircross"],
+    Byd: ["Seal", "Atto 3", "E6"],
+    Citroen: ["Basalt", "C3", "C3 Aircross", "eC3", "C5 Aircross"],
     // Ferrari:["812","296 GTB","F8 Tributo","Roma","SF90 Stradale"],
-    Ford: ["Aspire","EcoSport", "Endeavour","Fiesta", "Figo", "Freestyle" ,"Ikon","Mustang"],
-    Force:["Gurkha","Gurkha 5 Door","Urbania"],
-    Honda: ["Amaze", "City","City Hybrid","Elevate" ,"WR-V", "Jazz"],
+    Ford: [
+      "Aspire",
+      "EcoSport",
+      "Endeavour",
+      "Fiesta",
+      "Figo",
+      "Freestyle",
+      "Ikon",
+      "Mustang",
+    ],
+    Force: ["Gurkha", "Gurkha 5 Door", "Urbania"],
+    Honda: ["Amaze", "City", "City Hybrid", "Elevate", "WR-V", "Jazz"],
     Hyundai: [
       "Alcazar",
       "Aura",
@@ -88,15 +116,9 @@ export default function AddVehicle() {
       "Venue",
       "Verna",
     ],
-    ISUZU:["D-MAX", 
-        "Hi-Lander",
-        "MU-X",
-        "S-CAB-Z",
-        "S-CAB",
-        "V-Cross"
-    ],
-    Jaguar: ["F-Pace", "F-Type", "I-Pace","XE", "XF"],
-    Jeep: ["Compass", "Grand Cherokee " ,"Meridian", "Wrangler"],
+    ISUZU: ["D-MAX", "Hi-Lander", "MU-X", "S-CAB-Z", "S-CAB", "V-Cross"],
+    Jaguar: ["F-Pace", "F-Type", "I-Pace", "XE", "XF"],
+    Jeep: ["Compass", "Grand Cherokee ", "Meridian", "Wrangler"],
     Kia: ["Carnival", "Carens", "Seltos", "Sonet", "EV6"],
     "Land Rover": [
       "Defender",
@@ -108,7 +130,7 @@ export default function AddVehicle() {
       "Range Rover Sport",
       "Range Rover Velar",
     ],
-    // Lamborghini:["Huracan EVO","Revuelto","Urus"], 
+    // Lamborghini:["Huracan EVO","Revuelto","Urus"],
     // Lexus: [
     //     "ES",
     //     "LC 500H",
@@ -191,15 +213,24 @@ export default function AddVehicle() {
       "S-Class",
     ],
     // Mclaren :["750S","GT"],
-    MG: ["Astor","Comet EV", "Gloster", "Hector", "Hector Plus", "ZS EV"],
-    Mini:[
-        "Cooper ",
-        "Cooper Countryman",
-        "Cooper Countryman EV",
-        "Cooper S",
-        "Cooper SE",
-    ], 
-    Mitsubishi:["Cedia","Challenger","FTO","Lancer","Lancer Evolution X", "Montero","Outlander","Pajero" ],
+    MG: ["Astor", "Comet EV", "Gloster", "Hector", "Hector Plus", "ZS EV"],
+    Mini: [
+      "Cooper ",
+      "Cooper Countryman",
+      "Cooper Countryman EV",
+      "Cooper S",
+      "Cooper SE",
+    ],
+    Mitsubishi: [
+      "Cedia",
+      "Challenger",
+      "FTO",
+      "Lancer",
+      "Lancer Evolution X",
+      "Montero",
+      "Outlander",
+      "Pajero",
+    ],
     Nissan: ["Kicks", "Magnite", "X-Trail"],
     // "Rolls-Royce" :["Cullinan","Ghost","Phantom","Spectre"],
     Renault: ["Duster", "Kiger", "Kwid", "Triber"],
@@ -228,8 +259,7 @@ export default function AddVehicle() {
       "Tiago",
       "Tiago EV",
       "Tigor",
-      "Tigor EV"
-      
+      "Tigor EV",
     ],
     Toyota: [
       "Camry",
@@ -243,10 +273,18 @@ export default function AddVehicle() {
       "Rumion",
       "Taisor",
       "Urban Cruiser Hyryder",
-      "Vellfire"
+      "Vellfire",
     ],
     Volkswagen: ["Polo", "Vento", "Taigun", "Tiguan", "Virtus"],
-    Volvo: ["C40 Recharge (EV)","S60", "S90", "XC40","XC40 Recharge (EV)", "XC60", "XC90"]
+    Volvo: [
+      "C40 Recharge (EV)",
+      "S60",
+      "S90",
+      "XC40",
+      "XC40 Recharge (EV)",
+      "XC60",
+      "XC90",
+    ],
     // Add more vehicle models here
   };
 
@@ -259,14 +297,14 @@ export default function AddVehicle() {
   ];
 
   // Get today's date in the format YYYY-MM-DD
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split("T")[0];
 
   const handleDateChange = (e) => {
     const date = e.target.value;
     if (new Date(date) > new Date()) {
-      setClientErrors({ date: 'Future dates are not allowed.' });
+      setClientErrors({ date: "Future dates are not allowed." });
     } else {
-      setClientErrors({ date: '' });
+      setClientErrors({ date: "" });
       setdateOfRCReg(date);
     }
   };
@@ -342,9 +380,9 @@ export default function AddVehicle() {
       setErrors(validationErrors);
       return;
     }
-  
+
     try {
-      const response = await axios.post(`${API_BASE_URL}/users/addVehicle`, {                   
+      const response = await axios.post(`${API_BASE_URL}/users/addVehicle`, {
         userId: user._id,
         username,
         vehicleNumber,
@@ -360,54 +398,55 @@ export default function AddVehicle() {
         mobile,
         address,
       });
-      
-  
+
       console.log("Vehicle registered:", response.data);
-  
+
       // Reset after submission
       resetForm();
-  
+
       // Show success alert
       alert("Successfully Vehicle Registered");
-  
     } catch (error) {
       console.error("There was an error registering the vehicle!", error);
-      setErrors({ ...errors, form: "Failed to register the vehicle. Please try again later." });
+      setErrors({
+        ...errors,
+        form: "Failed to register the vehicle. Please try again later.",
+      });
     }
   };
-  
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     const validationErrors = runValidations();
-//     if (Object.keys(validationErrors).length > 0) {
-//       setErrors(validationErrors);
-//       return;
-//     }
 
-//     try {
-//       const response = await axios.post("http://localhost:3777/users/addVehicle", {
-//         userId: user._id,
-//         username,
-//         vehicleNumber,
-//         vehicleColor: color,
-//         brand,
-//         model,
-//         fuel,
-//         odometer,
-//         email,
-//         mobile,
-//         address,
-//       });
+  //   const handleSubmit = async (e) => {
+  //     e.preventDefault();
+  //     const validationErrors = runValidations();
+  //     if (Object.keys(validationErrors).length > 0) {
+  //       setErrors(validationErrors);
+  //       return;
+  //     }
 
-//       console.log("Vehicle registered:", response.data);
+  //     try {
+  //       const response = await axios.post("http://localhost:3777/users/addVehicle", {
+  //         userId: user._id,
+  //         username,
+  //         vehicleNumber,
+  //         vehicleColor: color,
+  //         brand,
+  //         model,
+  //         fuel,
+  //         odometer,
+  //         email,
+  //         mobile,
+  //         address,
+  //       });
 
-//       // Reset after submission
-//       resetForm();
-//     } catch (error) {
-//       console.error("There was an error registering the vehicle!", error);
-//       setErrors({ ...errors, form: "Failed to register the vehicle. Please try again later." });
-//     }
-//   };
+  //       console.log("Vehicle registered:", response.data);
+
+  //       // Reset after submission
+  //       resetForm();
+  //     } catch (error) {
+  //       console.error("There was an error registering the vehicle!", error);
+  //       setErrors({ ...errors, form: "Failed to register the vehicle. Please try again later." });
+  //     }
+  //   };
 
   const handleCheckVehicleNumber = async () => {
     if (vehicleNumber.trim().length > 0) {
@@ -446,218 +485,307 @@ export default function AddVehicle() {
   };
 
   return (
- <div className="bg-bg-MASTER min-h-screen py-5">
-  <h1 className="text-3xl font-semibold text-center text-white-900  mb-6">Vehicle Registration Form</h1>
-   <div className="App max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md dark:bg-white-800">
-  
-  <form onSubmit={handleSubmit} className="space-y-4 text-left">
-    <div>
-      <label htmlFor="username" className="block text-white-700 dark:text-white-300">Name: </label>
-      <input
-        type="text"
-        placeholder="Enter name"
-        id="username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-        readOnly
-        className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
-      />
+    <div className="bg-bg-MASTER min-h-screen py-5">
+      <h1 className="text-3xl font-semibold text-center text-white-900  mb-6">
+        Vehicle Registration Form
+      </h1>
+      <div className="App max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md dark:bg-white-800">
+        <form onSubmit={handleSubmit} className="space-y-4 text-left">
+          <div>
+            <label
+              htmlFor="username"
+              className="block text-white-700 dark:text-white-300"
+            >
+              Name:{" "}
+            </label>
+            <input
+              type="text"
+              placeholder="Enter name"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              readOnly
+              className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="vehicleNumber"
+              className="block text-white-700 dark:text-white-300"
+            >
+              Vehicle Number:
+            </label>
+            <input
+              type="text"
+              placeholder="Enter Vehicle Number"
+              id="vehicleNumber"
+              value={vehicleNumber.toUpperCase()}
+              onChange={(e) => setVehicleNumber(e.target.value.toUpperCase())}
+              onBlur={handleCheckVehicleNumber}
+              className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
+            />
+            {errors.vehicleNumber && (
+              <span className="text-red-600 text-sm">
+                {errors.vehicleNumber}
+              </span>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="color"
+              className="block text-white-700 dark:text-white-300"
+            >
+              Color:
+            </label>
+            <input
+              type="text"
+              placeholder="Enter Vehicle Color"
+              id="color"
+              value={color.toUpperCase()}
+              onChange={(e) => setColor(e.target.value.toUpperCase())}
+              className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
+            />
+            {errors.color && (
+              <span className="text-red-600 text-sm">{errors.color}</span>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="brand"
+              className="block text-white-700 dark:text-white-300"
+            >
+              Brand:
+            </label>
+            <select
+              id="brand"
+              value={brand}
+              onChange={handleBrandChange}
+              className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
+            >
+              <option value="">Select Brand</option>
+              {Object.keys(vehicleModels).map((brandName) => (
+                <option key={brandName} value={brandName}>
+                  {brandName}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label
+              htmlFor="model"
+              className="block text-white-700 dark:text-white-300"
+            >
+              Model:
+            </label>
+            <select
+              id="model"
+              value={model}
+              onChange={(e) => setModel(e.target.value)}
+              className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
+            >
+              <option value="">Select Model</option>
+              {models.map((modelName) => (
+                <option key={modelName} value={modelName}>
+                  {modelName}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label
+              htmlFor="fuel"
+              className="block text-white-700 dark:text-white-300"
+            >
+              Fuel Type:
+            </label>
+            <select
+              id="fuel"
+              value={fuel}
+              onChange={(e) => setFuel(e.target.value)}
+              className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
+            >
+              <option value="">Select Fuel Type</option>
+              {fuelTypes.map((fuelType) => (
+                <option key={fuelType} value={fuelType}>
+                  {fuelType}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* adding new */}
+          <div>
+            <label
+              htmlFor="engineNumber"
+              className="block text-white-700 dark:text-white-300"
+            >
+              Engine Number:
+            </label>
+            <input
+              type="text"
+              placeholder="Enter Engine Number"
+              id="engineNumber"
+              value={engineNumber.toUpperCase()}
+              onChange={(e) => setEngineNumber(e.target.value.toUpperCase())}
+              // onBlur={handleCheckVehicleNumber}
+              className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
+            />
+            {errors.engineNumber && (
+              <span className="text-red-600 text-sm">
+                {errors.engineNumber}
+              </span>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="chassisNumber"
+              className="block text-white-700 dark:text-white-300"
+            >
+              Vehicle Number(VIN):
+            </label>
+            <input
+              type="text"
+              placeholder="Enter chassis Number (17 digit number)"
+              id="chassisNumber"
+              value={chassisNumber.toUpperCase()}
+              onChange={(e) => setChassisNumber(e.target.value.toUpperCase())}
+              // onBlur={handleCheckChassisNumber}
+              className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
+            />
+            {errors.chassisNumber && (
+              <span className="text-red-600 text-sm">
+                {errors.chassisNumber}
+              </span>
+            )}
+          </div>
+
+          {/* date of reg on rc card   not more then todays date*/}
+          <div className="mb-4">
+            <label
+              htmlFor="date"
+              className="block text-white-700 dark:text-white-300"
+            >
+              Date of Registration on RC Card:
+            </label>
+
+            <input
+              type="date"
+              value={dateOfRCReg}
+              onChange={handleDateChange}
+              id="date"
+              max={today} // Restrict to today or earlier
+              className="mt-1 block w-full border border-white-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {clientErrors.date && (
+              <span className="text-red-600">{clientErrors.date}</span>
+            )}
+          </div>
+
+          {/* end new */}
+
+          <div>
+            <label
+              htmlFor="odometer"
+              className="block text-white-700 dark:text-white-300"
+            >
+              Odometer Reading:
+            </label>
+            <input
+              type="text"
+              placeholder="Enter Odometer Reading"
+              id="odometer"
+              value={odometer}
+              onChange={(e) => setOdometer(e.target.value)}
+              className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
+            />
+            {errors.odometer && (
+              <span className="text-red-600 text-sm">{errors.odometer}</span>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-white-700 dark:text-white-300"
+            >
+              Email:
+            </label>
+            <input
+              type="text"
+              placeholder="Enter Email"
+              id="email"
+              value={email}
+              readOnly
+              onChange={(e) => setEmail(e.target.value)}
+              className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
+            />
+            {errors.email && (
+              <span className="text-red-600 text-sm">{errors.email}</span>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="mobile"
+              className="block text-white-700 dark:text-white-300"
+            >
+              Contact Number:
+            </label>
+            <input
+              type="text"
+              placeholder="Enter Contact Number"
+              id="mobile"
+              value={mobile}
+              onChange={(e) => setContact(e.target.value)}
+              onBlur={handleCheckMobile}
+              className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
+            />
+            {errors.mobile && (
+              <span className="text-red-600 text-sm">{errors.mobile}</span>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="address"
+              className="block text-white-700 dark:text-white-300"
+            >
+              Address:
+            </label>
+            <textarea
+              placeholder="Enter Address"
+              id="address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
+            />
+            {errors.address && (
+              <span className="text-red-600 text-sm">{errors.address}</span>
+            )}
+          </div>
+
+          {errors.form && (
+            <span className="text-red-600 text-sm">{errors.form}</span>
+          )}
+
+          <div className="mt-6">
+            <button
+              type="submit"
+              className="w-full px-4 py-2 bg-blue-500 text-black font-semibold rounded-lg shadow-md hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-600"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-
-    <div>
-      <label htmlFor="vehicleNumber" className="block text-white-700 dark:text-white-300">Vehicle Number:</label>
-      <input
-        type="text"
-        placeholder="Enter Vehicle Number"
-        id="vehicleNumber"
-        value={vehicleNumber.toUpperCase()}
-        onChange={(e) => setVehicleNumber(e.target.value.toUpperCase())}
-        onBlur={handleCheckVehicleNumber}
-        className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
-      />
-      {errors.vehicleNumber && <span className="text-red-600 text-sm">{errors.vehicleNumber}</span>}
-    </div>
-
-    <div>
-      <label htmlFor="color" className="block text-white-700 dark:text-white-300">Color:</label>
-      <input
-        type="text"
-        placeholder="Enter Vehicle Color"
-        id="color"
-        value={color.toUpperCase()}
-        onChange={(e) => setColor(e.target.value.toUpperCase())}
-        className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
-      />
-      {errors.color && <span className="text-red-600 text-sm">{errors.color}</span>}
-    </div>
-
-    <div>
-      <label htmlFor="brand" className="block text-white-700 dark:text-white-300">Brand:</label>
-      <select
-        id="brand"
-        value={brand}
-        onChange={handleBrandChange}
-        className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
-      >
-        <option value="">Select Brand</option>
-        {Object.keys(vehicleModels).map((brandName) => (
-          <option key={brandName} value={brandName}>
-            {brandName}
-          </option>
-        ))}
-      </select>
-    </div>
-
-    <div>
-      <label htmlFor="model" className="block text-white-700 dark:text-white-300">Model:</label>
-      <select
-        id="model"
-        value={model}
-        onChange={(e) => setModel(e.target.value)}
-        className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
-      >
-        <option value="">Select Model</option>
-        {models.map((modelName) => (
-          <option key={modelName} value={modelName}>
-            {modelName}
-          </option>
-        ))}
-      </select>
-    </div>
-
-    <div>
-      <label htmlFor="fuel" className="block text-white-700 dark:text-white-300">Fuel Type:</label>
-      <select
-        id="fuel"
-        value={fuel}
-        onChange={(e) => setFuel(e.target.value)}
-        className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
-      >
-        <option value="">Select Fuel Type</option>
-        {fuelTypes.map((fuelType) => (
-          <option key={fuelType} value={fuelType}>
-            {fuelType}
-          </option>
-        ))}
-      </select>
-    </div>
-
-
-    {/* adding new */}
-    <div>
-      <label htmlFor="engineNumber" className="block text-white-700 dark:text-white-300">Engine Number:</label>
-      <input
-        type="text"
-        placeholder="Enter Engine Number"
-        id="engineNumber"
-        value={engineNumber.toUpperCase()}
-        onChange={(e) => setEngineNumber(e.target.value.toUpperCase())}
-        // onBlur={handleCheckVehicleNumber}
-        className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
-      />
-      {errors.engineNumber && <span className="text-red-600 text-sm">{errors.engineNumber}</span>}
-    </div>
-
-    <div>
-      <label htmlFor="chassisNumber" className="block text-white-700 dark:text-white-300">Vehicle Number(VIN):</label>
-      <input
-        type="text"
-        placeholder="Enter chassis Number (17 digit number)"
-        id="chassisNumber"
-        value={chassisNumber.toUpperCase()}
-        onChange={(e) => setChassisNumber(e.target.value.toUpperCase())}
-        // onBlur={handleCheckChassisNumber}
-        className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
-      />
-      {errors.chassisNumber && <span className="text-red-600 text-sm">{errors.chassisNumber}</span>}
-    </div>
-
-    {/* date of reg on rc card   not more then todays date*/}
-    <div className="mb-4">
-      <label htmlFor="date" className="block text-white-700 dark:text-white-300">Date of Registration on RC Card:</label>
-
-      <input
-        type="date"
-        value={dateOfRCReg}
-        onChange={handleDateChange}
-        id="date"
-        max={today} // Restrict to today or earlier
-        className="mt-1 block w-full border border-white-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      {clientErrors.date && <span className="text-red-600">{clientErrors.date}</span>}
-    </div>
-    
-
-    {/* end new */}
-
-    <div>
-      <label htmlFor="odometer" className="block text-white-700 dark:text-white-300">Odometer Reading:</label>
-      <input
-        type="text"
-        placeholder="Enter Odometer Reading"
-        id="odometer"
-        value={odometer}
-        onChange={(e) => setOdometer(e.target.value)}
-        className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
-      />
-      {errors.odometer && <span className="text-red-600 text-sm">{errors.odometer}</span>}
-    </div>
-
-    <div>
-      <label htmlFor="email" className="block text-white-700 dark:text-white-300">Email:</label>
-      <input
-        type="text"
-        placeholder="Enter Email"
-        id="email"
-        value={email}
-        readOnly
-        onChange={(e) => setEmail(e.target.value)}
-        className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
-      />
-      {errors.email && <span className="text-red-600 text-sm">{errors.email}</span>}
-    </div>
-
-    <div>
-      <label htmlFor="mobile" className="block text-white-700 dark:text-white-300">Contact Number:</label>
-      <input
-        type="text"
-        placeholder="Enter Contact Number"
-        id="mobile"
-        value={mobile}
-        onChange={(e) => setContact(e.target.value)}
-        onBlur={handleCheckMobile}
-        className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
-      />
-      {errors.mobile && <span className="text-red-600 text-sm">{errors.mobile}</span>}
-    </div>
-
-    <div>
-      <label htmlFor="address" className="block text-white-700 dark:text-white-300">Address:</label>
-      <textarea
-        placeholder="Enter Address"
-        id="address"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-        className="mt-1 block w-full px-3 py-2 border border-white-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-white-700 dark:text-white-300"
-      />
-      {errors.address && <span className="text-red-600 text-sm">{errors.address}</span>}
-    </div>
-
-    {errors.form && <span className="text-red-600 text-sm">{errors.form}</span>}
-
-    <div className="mt-6">
-      <button
-        type="submit"
-        className="w-full px-4 py-2 bg-blue-500 text-black font-semibold rounded-lg shadow-md hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-600"
-      >
-        Submit
-      </button>
-    </div>
-  </form>
-</div>
- </div>
-
 
     // <div className="App">
     //   <h1>Vehicle Registration Form</h1>
@@ -818,7 +946,7 @@ export default function AddVehicle() {
 
 //   const vehicleModels = {
 //     Audi: ["A3", "A4", "A6", "A8","A8 L","e-Tron","e-Tron GT", "Q2", "Q3","Q3 Sportback", "Q5", "Q7", "Q8","Q8 Sportback e-Tron","Q8 e-Tron","RS Q8","RS5","S5 Sportback"],
-//     // "Aston Martin":["DB12","DBX","Vantage"], 
+//     // "Aston Martin":["DB12","DBX","Vantage"],
 //     BMW: [
 //       "2 Series Gran Coupe",
 //       "3 Series",
@@ -865,7 +993,7 @@ export default function AddVehicle() {
 //       "Venue",
 //       "Verna",
 //     ],
-//     ISUZU:["D-MAX", 
+//     ISUZU:["D-MAX",
 //         "Hi-Lander",
 //         "MU-X",
 //         "S-CAB-Z",
@@ -885,7 +1013,7 @@ export default function AddVehicle() {
 //       "Range Rover Sport",
 //       "Range Rover Velar",
 //     ],
-//     // Lamborghini:["Huracan EVO","Revuelto","Urus"], 
+//     // Lamborghini:["Huracan EVO","Revuelto","Urus"],
 //     // Lexus: [
 //     //     "ES",
 //     //     "LC 500H",
@@ -975,7 +1103,7 @@ export default function AddVehicle() {
 //         "Cooper Countryman EV",
 //         "Cooper S",
 //         "Cooper SE",
-//     ], 
+//     ],
 //     Mitsubishi:["Cedia","Challenger","FTO","Lancer","Lancer Evolution X", "Montero","Outlander","Pajero" ],
 //     Nissan: ["Kicks", "Magnite", "X-Trail"],
 //     // "Rolls-Royce" :["Cullinan","Ghost","Phantom","Spectre"],
@@ -1006,7 +1134,7 @@ export default function AddVehicle() {
 //       "Tiago EV",
 //       "Tigor",
 //       "Tigor EV"
-      
+
 //     ],
 //     Toyota: [
 //       "Camry",
@@ -1101,7 +1229,7 @@ export default function AddVehicle() {
 //       setErrors(validationErrors);
 //       return;
 //     }
-  
+
 //     try {
 //       const response = await axios.post(`${API_BASE_URL}/users/addVehicle`, {
 //         userId: user._id,
@@ -1117,21 +1245,20 @@ export default function AddVehicle() {
 //         address,
 //       });
 //       // alert("Vehicle registered successfully!");
-  
+
 //       console.log("Vehicle registered:", response.data);
-  
+
 //       // Reset after submission
 //       resetForm();
-  
+
 //       // Show success alert
 //       alert("Successfully Vehicle Registered");
-  
+
 //     } catch (error) {
 //       console.error("There was an error registering the vehicle!", error);
 //       setErrors({ ...errors, form: "Failed to register the vehicle. Please try again later." });
 //     }
 //   };
-  
 
 // const handleCheckVehicleNumber = async () => {
 //   if (vehicleNumber.trim().length > 0) {
@@ -1288,8 +1415,6 @@ export default function AddVehicle() {
 //   className="mt-1 block w-full border border-white-300 rounded-md p-2"
 // />
 
-
-
 //     <div className="mb-4">
 //       <label htmlFor="address" className="block text-sm font-medium text-white-700 text-left">Address:</label>
 //       <textarea
@@ -1308,10 +1433,5 @@ export default function AddVehicle() {
 //   </form>
 // </div>
 
-    
 //   );
 // }
-
-
-
-

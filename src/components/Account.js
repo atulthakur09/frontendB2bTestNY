@@ -52,7 +52,8 @@ export default function Account() {
             {businessDetails.businessName}
           </p>
           <p className="text-lg mb-2">
-            <span className="font-semibold">GSTIN:</span> {businessDetails.gstin}
+            <span className="font-semibold">GSTIN:</span>{" "}
+            {businessDetails.gstin}
           </p>
           <p className="text-lg mb-2">
             <span className="font-semibold">Billing Address:</span>{" "}
@@ -109,6 +110,5 @@ export default function Account() {
     //   )}
     //    <BusinessCredentials/>
     // </div>
-
   );
 }

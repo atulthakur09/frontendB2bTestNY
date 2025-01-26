@@ -37,7 +37,8 @@ h2 {
     background-color: #f2f2f2;
 }
 
-.vehicle-details-table th, .vehicle-details-table td {
+.vehicle-details-table th,
+.vehicle-details-table td {
     padding: 12px 15px;
     border: 1px solid #ddd;
     text-align: center;
@@ -63,7 +64,8 @@ h2 {
     margin-top: 10px;
 }
 
-.items-table th, .items-table td {
+.items-table th,
+.items-table td {
     padding: 8px;
     border: 1px solid #ccc;
     text-align: center;
@@ -80,7 +82,8 @@ h2 {
 
 /* List for items */
 ul.item-list {
-    list-style-type: decimal; /* Numbered list */
+    list-style-type: decimal;
+    /* Numbered list */
     padding-left: 20px;
 }
 
@@ -119,16 +122,18 @@ ul.item-list {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .vehicle-details-table, .items-table {
+
+    .vehicle-details-table,
+    .items-table {
         width: 100%;
         font-size: 14px;
     }
-    
+
     .vehicle-select {
         width: 100%;
         max-width: 300px;
     }
-    
+
     .toggle-button {
         font-size: 12px;
         padding: 4px 8px;
